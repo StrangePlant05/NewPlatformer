@@ -6,13 +6,13 @@ class Player extends Entity{
             left: false,
             bottom: false,
             right: false
-        }
+        };
         this.acceleration = 0.2;
         this.jumpStrength = 15;
     }
     update(context) {
         this.dx = Utils.getDirection(this, this.acceleration);
-        this.checkForCollisions(20, 10)
+        this.checkForCollisions(20, 10);
         super.update(context);
     }
 
