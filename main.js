@@ -6,7 +6,14 @@ canvas.height = window.innerHeight;
 
 Utils.entities.push(new Sprite(100, window.innerHeight - 200, window.innerWidth - 200, 50, "#000"));
 Utils.entities.push(new Sprite(100, 100, 50, window.innerHeight - 200, "#000"));
-let player = new Player(window.innerWidth / 2, window.innerHeight - 500, 50, 50, "red", Utils.entities);
+let player = new Player({
+    x: window.innerWidth / 2, 
+    y: window.innerHeight - 500, 
+    width: 50, 
+    height: 50, 
+    color: "red", 
+    entities: Utils.entities
+});
 update();
 
 function update() {

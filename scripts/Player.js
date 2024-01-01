@@ -1,6 +1,15 @@
 class Player extends Entity{
-    constructor(x, y, width, height, color, entities) {
-        super(x, y, width, height, color, entities, 10, 0.8);
+    constructor({x, y, width, height, color, entities}) {
+        super({
+            x: x, 
+            y: y, 
+            width: width, 
+            height: height, 
+            color: color, 
+            entities: entities, 
+            speed: 10, 
+            gravity: 0.8
+        });
         this.collision = {
             top: false,
             left: false,
