@@ -1,6 +1,6 @@
 class Entity extends Sprite{
     constructor({x, y, width, height, color, entities, speed, gravity}) {
-        super(x, y, width, height, color);
+        super({x, y, width, height, color});
         this.entities = entities;
         this.gravity = gravity;
         this.speed = speed;

@@ -4,7 +4,7 @@ class Utils {
         x: undefined,
         y: undefined
     }
-    static entities = [];
+    static walls = [];
 
     static moveTowards(current, target, maxDelta) {
         const difference = target - current;

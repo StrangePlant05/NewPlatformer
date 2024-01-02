@@ -1,5 +1,5 @@
 class Sprite {
-    constructor(x, y, width, height, color) {
+    constructor({x, y, width, height, color}) {
         this.position = {
             x: x,
             y: y
