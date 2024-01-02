@@ -1,6 +1,23 @@
 let jumped = false;
+let jumpbuttonconfig;
+
+document.getElementById("ak").addEventListener("click",(event)=>{
+
+    jumpbuttonconfig = document.getElementById("wagaegs").value;
+
+    if (jumpbuttonconfig/1){
+    jumpbuttonconfig = "Digit"+jumpbuttonconfig
+    }else{
+    jumpbuttonconfig = "Key"+jumpbuttonconfig
+    }
+    Utils.keybinds = {
+    "jump": jumpbuttonconfig
+    }
+    alert(jumpbuttonconfig)
+});
 document.addEventListener("keydown", (event) => {
-    if (event.code == "Space" && !jumped) {
+
+    if (event.code == jumpbuttonconfig && !jumped) {
         player.jump();
         jumped = true;
     } 
@@ -8,7 +25,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.code == "Space") jumped = false;
+    if (event.code == jumpbuttonconfig) jumped = false;
     Utils.inputStates[event.key] = false;
 });
 

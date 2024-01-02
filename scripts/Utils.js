@@ -46,7 +46,7 @@ class Utils {
     }
     
     static getDirection(player, acceleration) {
-        let direction = this.inputStates["a"] && this.inputStates ["d"] ? 
+        let direction = this.inputStates["a"] && this.inputStates["d"] ? 
         this.moveTowards(player.dx, 0, 0.1) : 
         this.moveTowards(player.dx, this.inputStates["a"] ?
             -1 : this.inputStates["d"] ? 
