@@ -1,5 +1,10 @@
 class Utils {
     static inputStates = {};
+    static keybinds = {
+        jump: "Space",
+        moveLeft: "a",
+        moveRight: "d"
+    }
     static mouse = {
         x: undefined,
         y: undefined
