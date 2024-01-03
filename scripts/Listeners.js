@@ -2,7 +2,6 @@ let jumped = false;
 let jumpbuttonconfig;
 
 document.getElementById("ak").addEventListener("click",(event)=>{
-
     jumpbuttonconfig = document.getElementById("wagaegs").value;
 
     if (jumpbuttonconfig/1){
