@@ -1,23 +1,46 @@
 let jumped = false;
+let jumped2 = false;
+let jumped3 = false;
 
 document.getElementById("ak").addEventListener("click",(event)=>{
     let jumpbuttonconfig = document.getElementById("wagaegs").value;
 
-    Utils.keybinds.jump = jumpbuttonconfig;
+    if (jumpbuttonconfig.length == 1){
+    Utils.keybindsPlayer1.jump = jumpbuttonconfig.toLowerCase();
+    }else{
+     Utils.keybindsPlayer1.jump = jumpbuttonconfig;
+    }
+    
     alert(jumpbuttonconfig)
 });
-document.addEventListener("keydown", (event) => {
 
-    if (event.key === Utils.keybinds.jump && !jumped) {
-        player.jump();
+window.addEventListener("resize", (event)=> {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+document.addEventListener("keydown", (event) => {
+    const eventKey = event.key.toLowerCase();
+    if (eventKey === Utils.keybindsPlayer1.jump && !jumped) {
+        player1.jump();
         jumped = true;
-    } 
-    Utils.inputStates[event.key] = true;
+    }
+    if (eventKey === Utils.keybindsPlayer2.jump && !jumped2) {
+        player2.jump();
+        jumped2 = true;
+    }
+    if (eventKey === Utils.keybindsPlayer3.jump && !jumped3) {
+        player3.jump();
+        jumped3 = true;
+    }
+    Utils.inputStates[eventKey] = true;
 });
 
 document.addEventListener("keyup", (event) => {
-    if (event.key === Utils.keybinds.jump) jumped = false;
-    Utils.inputStates[event.key] = false;
+    const eventKey = event.key.toLowerCase();
+    if (eventKey === Utils.keybindsPlayer1.jump) jumped = false;
+    if (eventKey === Utils.keybindsPlayer2.jump) jumped2 = false;
+    if (eventKey === Utils.keybindsPlayer3.jump) jumped3 = false;
+    Utils.inputStates[eventKey] = false;
 });
 
 document.addEventListener("mousedown", (event) => {
@@ -28,7 +51,7 @@ document.addEventListener("mousedown", (event) => {
     Utils.inputStates[event.button] = false;
 });
 
-document.addEventListener("mousedown", (event) => {
+document.addEventListener("mousemove", (event) => {
     Utils.mouse.x = event.clientX;
     Utils.mouse.y = event.clientY;
 });
