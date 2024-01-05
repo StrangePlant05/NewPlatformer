@@ -11,12 +11,12 @@ class Entity extends Sprite{
     }
 
     update(context) {
-        this.checkHorizontalCollision();
-        this.applyGravity();
-        this.checkVerticalCollision();
         this.draw(context);
         this.position.x += this.velocityX;
         this.velocityX = this.speed * this.dx;
+        this.checkHorizontalCollision();
+        this.applyGravity();
+        this.checkVerticalCollision();
     }
 
     applyGravity() {
@@ -52,7 +52,6 @@ class Entity extends Sprite{
             return;
         }
         if (intersectionLeft) {
-
             if (intersectionLeft.wall.color == "yellow") {
 
                 if (!intersectionLeft.wall.collisions.left) {
