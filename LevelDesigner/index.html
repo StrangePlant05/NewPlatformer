@@ -9,9 +9,9 @@
 <body>
     <div id="level">
         <div id="levelProperties" class="subLevel">
-            <p>Tile X Amount: </p><input type="number" id="tileX">
-            <p>Tile Y Amount: </p><input type="number" id="tileY">
-            <p>Tile Size: </p><input type="number" id="tileSize">
+            <p>Tile X Amount: </p><input type="number" id="tileX" min="1">
+            <p>Tile Y Amount: </p><input type="number" id="tileY" min="1">
+            <p>Tile Size: </p><input type="number" id="tileSize" min="1">
             <button id="lock">Lock Level Size</button>
         </div>
         <div id="brush" class="subLevel">
@@ -36,6 +36,9 @@
                     <input type="radio" name="brushSelect" value="none">Spike
                 </label>
                 <label>
+                    <input type="radio" name="brushSelect" value="none">Crate
+                </label>
+                <label>
                     <input type="radio" name="brushSelect" value="none">Spawn Point
                 </label>
             </div>
@@ -45,6 +48,8 @@
             <p>Id: </p><input type="text" id="tileId">
             <p>Span Column: </p><input type="number" id="spanColumn" min="1">
             <p>Span Row: </p><input type="number" id="spanRow" min="1">
+            <p>Id Connect (for buttons): </p><input type="text" id="idConnect">
+            <button id="connect">Connect To Tile</button>
         </div>
         <div id="actions" class="subLevel">
             <button id="refresh">Refresh Level</button>

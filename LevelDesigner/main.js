@@ -7,6 +7,7 @@ let refreshButton = document.getElementById('refresh')
 let hideButton = document.getElementById('hide')
 let submitButton = document.getElementById('submit')
 let lockButton = document.getElementById('lock')
+let connectButton = document.getElementById('connect')
 
 let brushSelect = document.getElementsByName('brushSelect')
 
@@ -14,6 +15,7 @@ let typeInput = document.getElementById('tileType');
 let idInput = document.getElementById('tileId');
 let spanRowInput = document.getElementById('spanRow');
 let spanColumnInput = document.getElementById('spanColumn');
+let idConnectInput = document.getElementById('idConnect');
 
 let selectedTile;
 
@@ -26,6 +28,7 @@ let displayTiles = [];
 let tileX;
 let tileY;
 let tileSize;
+let connectingId = false;
 
 let colors = [
     "#00000000",
@@ -33,6 +36,7 @@ let colors = [
     "orange",
     "brown",
     "red",
+    "#ad6134",
     "green"
 ]
 
@@ -49,6 +53,19 @@ lockButton.addEventListener("click", () => {
 });
 
 hideButton.addEventListener("click", () => {
+    toggleUi();
+});
+
+connectButton.addEventListener("click", () => {
+    connectingId = true;
+    toggleUi();
+});
+
+submitButton.addEventListener("click", () => {
+    exportToJson();
+});
+
+function toggleUi() {
     uiToggle = !uiToggle;
     let display = uiToggle ? "flex" : "none";
     let width = uiToggle ? "300px" : "fit-content"
@@ -58,7 +75,7 @@ hideButton.addEventListener("click", () => {
     document.getElementById("level").style.width = width;
     refreshButton.style.display = display;
     submitButton.style.display = display;
-});
+}
 
 function refreshDisplay() {
     if (lock) {
@@ -82,7 +99,7 @@ function refreshDisplay() {
                     tile.style.height = tileSize + "px";
                     tile.style.borderWidth = "1px";
                     tile.style.border = "solid";
-                    tile.style.borderColor = "#b2b2b2";
+                    tile.style.borderColor = "#b2b2b250";
                     tile.style.userSelect = "none"
                     tile.style.display = "grid"
                     tile.style.placeItems = "center"
@@ -99,7 +116,8 @@ function refreshDisplay() {
                         spanRow: 1,
                         spanColumn: 1,
                         type: 0,
-                        tile
+                        tile, 
+                        connectedId: ""
                     })
                 }
                 levelDisplay.appendChild(row);
@@ -109,40 +127,58 @@ function refreshDisplay() {
 }
 
 function tileClick(tile) {
-    let currentTile;
-    tiles.forEach(e => {
-        e.tile.innerHTML = '';
-        if (e.tile == tile) {
-            currentTile = e;
-            let type;
-            for (let i = 0; i < brushSelect.length; i++) {
-                type = 0;
-                if (brushSelect[i].checked) {
-                    type = i;
-                    break;
-                }
+    if (connectingId) {
+        tiles.forEach(e => {
+            if (e.tile == tile) {
+                selectedTile.connectedId = e.id;
+                connectingId = false;
+                toggleUi();
+                selectedTile.tile.innerHTML = 'o';
+                typeInput.value = selectedTile.type;
+                idInput.value = selectedTile.id;
+                spanRowInput.value = selectedTile.spanRow;
+                spanColumnInput.value = selectedTile.spanColumn;
+                idConnectInput.value = selectedTile.connectedId;
+                return;
             }
-            type -= 1;
-            selectedTile = currentTile;
-            currentTile.tile.innerHTML = 'o';
-            typeInput.value = currentTile.type;
-            idInput.value = currentTile.id;
-            spanRowInput.value = currentTile.spanRow;
-            spanColumnInput.value = currentTile.spanColumn;
-
-            if (type > colors.length - 1 || type == -1) return;   
-            currentTile.type = type;
-            currentTile.id = currentTile.x + ":" + currentTile.y + ":" + type;
-            refreshDisplay();
-            return;
-        }
-    });
+        });
+    } else {
+        let currentTile;
+        tiles.forEach(e => {
+            e.tile.innerHTML = '';
+            if (e.tile == tile) {
+                currentTile = e;
+                let type;
+                for (let i = 0; i < brushSelect.length; i++) {
+                    type = 0;
+                    if (brushSelect[i].checked) {
+                        type = i;
+                        break;
+                    }
+                }
+                type -= 1;
+                selectedTile = currentTile;
+                currentTile.tile.innerHTML = 'o';
+                typeInput.value = currentTile.type;
+                idInput.value = currentTile.id;
+                spanRowInput.value = currentTile.spanRow;
+                spanColumnInput.value = currentTile.spanColumn;
+                idConnectInput.value = currentTile.connectedId;
+    
+                if (type > colors.length - 1 || type == -1) return;   
+                currentTile.type = type;
+                currentTile.id = currentTile.x + ":" + currentTile.y + ":" + type;
+                refreshDisplay();
+                return;
+            }
+        });
+    }
 }
 
 spanColumnInput.addEventListener("input", () => {
     let newSpan = parseInt(spanColumnInput.value)
     if (selectedTile) {
-        if (newSpan >= 1 && (newSpan + selectedTile.x) < tileX) {
+        if (newSpan >= 1 && (newSpan + selectedTile.x) <= tileX) {
             for (let j = 0; j < selectedTile.spanRow; j++) {
                 for (let i = selectedTile.x; i < selectedTile.spanColumn + selectedTile.x; i++) {
                     let oldSpan = tiles.filter((tile) => { return tile.x == i && tile.y == selectedTile.y + j});
@@ -173,7 +209,7 @@ spanColumnInput.addEventListener("input", () => {
 spanRowInput.addEventListener("input", () => {
     let newSpan = parseInt(spanRowInput.value)
     if (selectedTile) {
-        if (newSpan >= 1 && (newSpan + selectedTile.y) < tileY) {
+        if (newSpan >= 1 && (newSpan + selectedTile.y) <= tileY) {
             for (let j = 0; j < selectedTile.spanColumn; j++) {
                 for (let i = selectedTile.y; i < selectedTile.spanRow + selectedTile.y; i++) {
                     let oldSpan = tiles.filter((tile) => { return tile.y == i && tile.x == selectedTile.x + j});
@@ -201,3 +237,54 @@ spanRowInput.addEventListener("input", () => {
         refreshDisplay();
     }
 });
+
+function exportToJson() {
+    let newTiles = [];
+    let seenIds = {};
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].type == 0) continue;
+        let newId = tiles[i].id;
+        let newX = tiles[i].x * tiles[i].tileSize;
+        let newY = tiles[i].y * tiles[i].tileSize;
+        let newWidth = tiles[i].tileSize * tiles[i].spanColumn;
+        let newHeight = tiles[i].tileSize * tiles[i].spanRow;
+        let newType = tiles[i].type;
+        let newConnectedId = tiles[i].connectedId;
+
+        if (seenIds[tiles[i].id]) {
+            continue;
+        }
+    
+        seenIds[tiles[i].id] = true;
+
+        newTiles.push({
+            id: newId,
+            x: newX,
+            y: newY,
+            width: newWidth,
+            height: newHeight,
+            type: newType,
+            connectedId: newConnectedId,
+        });
+    }
+
+    // Convert the array to a JSON string
+    var jsonString = JSON.stringify(newTiles, null, 2); // The third parameter (2) is for indentation
+
+    // Create a Blob from the JSON string
+    var blob = new Blob([jsonString], { type: "application/json" });
+
+    // Create a download link
+    var downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = "tiles.json"; // Specify the filename
+
+    // Append the link to the document
+    document.body.appendChild(downloadLink);
+
+    // Trigger a click on the link to start the download
+    downloadLink.click();
+
+    // Remove the link from the document
+    document.body.removeChild(downloadLink);
+}
