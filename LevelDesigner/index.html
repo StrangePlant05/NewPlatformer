@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="level">
+        <div id="levelProperties" class="subLevel">
+            <p>Tile X Amount: </p><input type="number" id="tileX">
+            <p>Tile Y Amount: </p><input type="number" id="tileY">
+            <p>Tile Size: </p><input type="number" id="tileSize">
+            <button id="lock">Lock Level Size</button>
+        </div>
+        <div id="brush" class="subLevel">
+            <p>Brush Type: </p>
+            <div>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Select
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Delete
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Wall
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Button
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Door
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Spike
+                </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Spawn Point
+                </label>
+            </div>
+        </div>
+        <div id="tileProperties" class="subLevel">
+            <p>Type: </p><input type="number" id="tileType" min="0">
+            <p>Id: </p><input type="text" id="tileId">
+            <p>Span Column: </p><input type="number" id="spanColumn" min="1">
+            <p>Span Row: </p><input type="number" id="spanRow" min="1">
+        </div>
+        <div id="actions" class="subLevel">
+            <button id="refresh">Refresh Level</button>
+            <button id="submit">Download Level</button>
+            <button id="hide">Hide UI</button>
+        </div>
+    </div>
+    <div id="levelDisplay"></div>
+</body>
+<script src="main.js"></script>
+</html>
