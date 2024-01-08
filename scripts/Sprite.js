@@ -8,8 +8,8 @@ class Sprite {
         this.height = height;
         this.color = color;
     }
-    draw(context) {
+    draw(context, camera) {
         context.fillStyle = this.color;
-        context.fillRect(this.position.x, this.position.y, this.width, this.height);
+        context.fillRect(this.position.x, this.position.y - camera.y, this.width, this.height);
     }
 }

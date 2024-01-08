@@ -19,9 +19,9 @@ class Prop extends Entity {
         };
     }
 
-    update(context) {
+    update(context, camera) {
         this.dx = Utils.moveTowards(this.dx, 0, 0.05)
         this.collisions = Utils.checkForCollisions(this, 10, 0)
-        super.update(context);
+        super.update(context, camera);
     }
 }

@@ -3,3 +3,8 @@
     padding: 0;
     overflow: hidden;
 }
+body{
+    background: url("https://i.ytimg.com/vi/1KKaoFIXnmk/maxresdefault.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}

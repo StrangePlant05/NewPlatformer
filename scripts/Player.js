@@ -22,10 +22,10 @@ class Player extends Entity{
         this.jumpStrength = 15;
         this.keybinds = keybinds;
     }
-    update(context) {
+    update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);
         this.collision = Utils.checkForCollisions(this, 20, 10);
-        super.update(context);
+        super.update(context, camera);
     }
 
     jump() {
