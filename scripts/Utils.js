@@ -20,6 +20,7 @@ class Utils {
         x: 0,
         y: 0
     }
+    static stageLayout = [];
     static walls = [];
     static entities = [];
 
@@ -118,5 +119,28 @@ class Utils {
 
     static getDistance(point1, point2) {
         return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
+    }
+
+    static async fetchStage(path) {
+        try {
+            const response = await fetch(path);
+            const data = await response.json();
+            return new Promise((resolve) => {
+                resolve(data);
+            })
+        } catch (e) {}
+    }
+
+    static loadJsonFile(path) {
+        var request = new XMLHttpRequest();
+        request.open("GET", path, false);
+        request.send();
+
+        if (request.status === 200) {
+            return JSON.parse(request.responseText);
+        } else {
+            console.error('Error fetching JSON. Status: ', request.status);
+            return null;
+        }
     }
 }

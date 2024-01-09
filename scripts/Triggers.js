@@ -1,7 +1,8 @@
 class TriggerBox extends Sprite{
-    constructor({x, y, width, height, color}) {
+    constructor({id, x, y, width, height, color}) {
         super({x, y, width, height, color})
         this.isPressed = false;
+        this.id = id;
     }
 
     isEntityInside(entity) {

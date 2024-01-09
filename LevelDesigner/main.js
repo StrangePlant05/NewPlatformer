@@ -117,7 +117,7 @@ function refreshDisplay() {
                         spanColumn: 1,
                         type: 0,
                         tile, 
-                        connectedId: ""
+                        connectedId: []
                     })
                 }
                 levelDisplay.appendChild(row);
@@ -130,7 +130,7 @@ function tileClick(tile) {
     if (connectingId) {
         tiles.forEach(e => {
             if (e.tile == tile) {
-                selectedTile.connectedId = e.id;
+                selectedTile.connectedId.push(e.id);
                 connectingId = false;
                 toggleUi();
                 selectedTile.tile.innerHTML = 'o';
@@ -138,7 +138,7 @@ function tileClick(tile) {
                 idInput.value = selectedTile.id;
                 spanRowInput.value = selectedTile.spanRow;
                 spanColumnInput.value = selectedTile.spanColumn;
-                idConnectInput.value = selectedTile.connectedId;
+                idConnectInput.value = JSON.stringify(selectedTile.connectedId);
                 return;
             }
         });
@@ -163,7 +163,7 @@ function tileClick(tile) {
                 idInput.value = currentTile.id;
                 spanRowInput.value = currentTile.spanRow;
                 spanColumnInput.value = currentTile.spanColumn;
-                idConnectInput.value = currentTile.connectedId;
+                idConnectInput.value = JSON.stringify(currentTile.connectedId);
     
                 if (type > colors.length - 1 || type == -1) return;   
                 currentTile.type = type;
@@ -235,6 +235,16 @@ spanRowInput.addEventListener("input", () => {
             selectedTile.spanRow = newSpan;
         }
         refreshDisplay();
+    }
+});
+
+idConnectInput.addEventListener("input", () => {
+    let inputText = "[" + idConnectInput.value + "]";
+    try {
+        let newIds = JSON.parse(inputText);
+        selectedTile.connectedId = newIds;
+    } catch (e) {
+        idConnectInput.value = JSON.stringify(selectedTile.connectedId);
     }
 });
 

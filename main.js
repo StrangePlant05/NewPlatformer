@@ -25,7 +25,10 @@ createWall(absoluteCenter() - (stageWidth / 2), heightWindow(25), stageWidth , 5
 createWall((absoluteCenter() - (stageWidth / 2)  +30 ), heightWindow(100), 900 , 50 , "pink")
 createWall(((absoluteCenter() - (stageWidth / 2))  + 1000 ), heightWindow(-800), 90 , 50 , "pink")
 
-
+document.addEventListener("DOMContentLoaded", () => {
+    Utils.stageLayout = Utils.loadJsonFile("data/tilesuwu.json")
+    if (Utils.stageLayout) console.log(Utils.stageLayout);
+})
 
 // createWall(500, heightWindow(-200), stageWidth/1.5, 50, "orange")
 // createWall(100, heightWindow(-500), 50, window.innerHeight - 200)
@@ -169,8 +172,6 @@ function update() {
     plate.update(context, Utils.entities, camera)
     door.update(context, camera)
     
-    console.log(plate.isPressed)
-    console.log(camera.y)
     
     // context.fillStyle = "green"
     // context.fillRect(respawn.x, respawn.y, 10, 10)
