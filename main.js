@@ -21,44 +21,44 @@ function absoluteCenter(){
 
 
 createWall(absoluteCenter() - (stageWidth / 2), heightWindow(25), stageWidth , 50, "red")
-//createWall(x,y,width,height,color)
 createWall((absoluteCenter() - (stageWidth / 2)  +30 ), heightWindow(100), 900 , 50 , "pink")
 createWall(((absoluteCenter() - (stageWidth / 2))  + 1000 ), heightWindow(-800), 90 , 50 , "pink")
 
+let respawn = {}
 document.addEventListener("DOMContentLoaded", () => {
-    Utils.stageLayout = Utils.loadJsonFile("data/tilesuwu.json")
-    if (Utils.stageLayout) console.log(Utils.stageLayout);
+    Utils.stageLayout = Utils.loadJsonFile("data/ooh.json")
+    if (Utils.stageLayout) {
+        Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
+        respawn =  { ...Utils.currentStage.spawnPoint };
+        startGame(Utils.currentStage);
+    }
 })
 
-// createWall(500, heightWindow(-200), stageWidth/1.5, 50, "orange")
-// createWall(100, heightWindow(-500), 50, window.innerHeight - 200)
-// createWall(900, heightWindow(-10), 50, window.innerHeight - 200, "pink")
+window.addEventListener("beforeunload", (event) => {
+    alert("a")
+})
 
 
-let respawn = {
-    x: (window.innerWidth / 2), 
-    y: heightWindow(-100), 
-}
-let player1 = new Player({
-    x: respawn.x + 5, 
-    y: respawn.y, 
-    width: 80, 
-    height: 100, 
-    color: "red", 
-    entities: Utils.entities,
-    keybinds: Utils.keybindsPlayer1,
-    walls: Utils.walls
-});
-let player2 = new Player({
-    x: respawn.x - 100,
-    y: respawn.y,
-    width: 50, 
-    height: 70, 
-    color: "blue", 
-    entities: Utils.entities,
-    keybinds: Utils.keybindsPlayer2,
-    walls: Utils.walls
-});
+// let player1 = new Player({
+//     x: respawn.x + 5, 
+//     y: respawn.y, 
+//     width: 80, 
+//     height: 100, 
+//     color: "red", 
+//     entities: Utils.entities,
+//     keybinds: Utils.keybindsPlayer1,
+//     walls: Utils.walls
+// });
+// let player2 = new Player({
+//     x: respawn.x - 100,
+//     y: respawn.y,
+//     width: 50, 
+//     height: 70, 
+//     color: "blue", 
+//     entities: Utils.entities,
+//     keybinds: Utils.keybindsPlayer2,
+//     walls: Utils.walls
+// });
 
 let object = new Prop({
     x: respawn.x + 15,
@@ -99,83 +99,116 @@ let door = new Interactive({
     height: 250,
     plate: plate,
     color: "pink",
-    pointAX: respawn.x + 400,
-    pointAY: respawn.y,
-    pointBX: respawn.x + 400,
-    pointBY: respawn.y - 500,    
+    pointA: {
+        x: respawn.x + 400,
+        y: respawn.y
+    },
+    pointB: {
+        x: respawn.x + 400,
+        y: respawn.y - 500
+    }
 })
 
 Utils.entities.push(object);
 Utils.entities.push(object2);
-Utils.entities.push(player1)
-Utils.entities.push(player2)
+// Utils.entities.push(player1)
+// Utils.entities.push(player2)
 Utils.walls.push(door)
 
+let player1;
+let player2;
+
+let updateRequest;
+function startGame(stage) {
+    player1 = new Player({
+        x: respawn.x, 
+        y: respawn.y, 
+        width: 80, 
+        height: 100, 
+        color: "red", 
+        entities: Utils.currentStage.entities,
+        keybinds: Utils.keybindsPlayer1,
+        walls: Utils.currentStage.walls
+    });
+    player2 = new Player({
+        x: respawn.x,
+        y: respawn.y,
+        width: 50, 
+        height: 70, 
+        color: "blue", 
+        entities: Utils.currentStage.entities,
+        keybinds: Utils.keybindsPlayer2,
+        walls: Utils.currentStage.walls
+    });
+
+    stage.entities.push(player1)
+    stage.entities.push(player2)
+
+    update(stage, player1, player2);
+}
+
+function stopGame() {
+    cancelAnimationFrame(updateRequest);
+}
 let camera = {
     x: 0,
     y: 0
 }
-update();
-function update() {
+function update(stage, player1, player2) {
+    let playerXAverage = (player1.position.x + player2.position.x) / 2
+    let cameraOffsetX = (playerXAverage - window.innerWidth /2) * 0.6;
     let playerYAverage = (player1.position.y + player2.position.y) / 2
     let cameraOffsetY = (playerYAverage - window.innerHeight /2) * 0.6;
+    camera.x = cameraOffsetX
     camera.y = cameraOffsetY
-        // context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-        // for(let i = 0; i < Utils.walls.length; i++) {
-        //     Utils.walls[i].position.y -= cameraOffsetY;
-        //     Utils.walls[i].draw(context);
-        // }
-        // player1.position.y -= cameraOffsetY;
-        // player2.position.y -= cameraOffsetY;
-        // object.position.y -= cameraOffsetY;
-        // object2.position.y -= cameraOffsetY
-        // respawn.y -= cameraOffsetY;
-        // plate.position.y -= cameraOffsetY;
+    context.clearRect(0, 0, window.innerWidth, window.innerHeight)
+    stage.walls.forEach(wall => {
+        wall.connectedId ? wall.update(context, camera) : wall.draw(context, camera);
+    });
 
-        // door.position.y -= cameraOffsetY;
-        // door.pointAY -= cameraOffsetY;
-        // door.pointBY -= cameraOffsetY;
+    stage.entities.forEach(entity => {
+        entity.update(context, camera);
+    });
 
-        // camera.y += cameraOffsetY;
+    stage.movables.forEach(movable => {
+        movable.update(context, camera);
+    });
 
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    stage.buttons.forEach(button => {
+        button.update(context, stage.entities, camera);
+    });
 
-    // Draw the static objects (walls, plate, door, etc.) without modifying their positions
-    for (let i = 0; i < Utils.walls.length; i++) {
-        Utils.walls[i].draw(context, camera);
-    }
-
-    // Draw the player and other dynamic objects with respect to the camera position
-    // player1.draw(context, camera);
-    // player2.draw(context, camera);
-    // object.draw(context, camera);
-    // object2.draw(context, camera);
-    // respawn.draw(context, camera);
-    // plate.draw(context, camera);
-    // door.draw(context, camera);
-
-    if (Utils.getDistance(player1.position, player2.position) > 3000) {
-        player2.position = { ...respawn }
-        player2.velocityX = 0;
-        player2.velocityY = 0;
-        player2.dx = 0;
-
-        player1.position = { ...respawn }
-        player1.velocityX = 0;
-        player1.velocityY = 0;
-        player1.dx = 0;
-    }
-    player1.update(context, camera);
-    player2.update(context, camera)
-    object.update(context, camera);
-    object2.update(context, camera)
-    plate.update(context, Utils.entities, camera)
-    door.update(context, camera)
-    
-    
-    // context.fillStyle = "green"
-    // context.fillRect(respawn.x, respawn.y, 10, 10)
-    
-    requestAnimationFrame(update);
+    updateRequest = requestAnimationFrame(() => update(stage, player1, player2));
 }
 
+//update();
+
+// function update() {
+//     let playerYAverage = (player1.position.y + player2.position.y) / 2
+//     let cameraOffsetY = (playerYAverage - window.innerHeight /2) * 0.6;
+//     camera.y = cameraOffsetY
+//     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+//     for (let i = 0; i < Utils.walls.length; i++) {
+//         Utils.walls[i].draw(context, camera);
+//     }
+
+//     if (Utils.getDistance(player1.position, player2.position) > 3000) {
+//         player2.position = { ...respawn }
+//         player2.velocityX = 0;
+//         player2.velocityY = 0;
+//         player2.dx = 0;
+
+//         player1.position = { ...respawn }
+//         player1.velocityX = 0;
+//         player1.velocityY = 0;
+//         player1.dx = 0;
+//     }
+//     player1.update(context, camera);
+//     player2.update(context, camera)
+//     object.update(context, camera);
+//     object2.update(context, camera)
+//     plate.update(context, Utils.entities, camera)
+//     door.update(context, camera)
+
+//     updateRequest = requestAnimationFrame(update);
+// }

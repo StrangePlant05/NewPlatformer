@@ -38,7 +38,7 @@
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.entities));
 
         if (intersectionRight) {
-            if (intersectionRight.wall.color == "#7f3f00") {
+            if (intersectionRight.wall.color == "#ad6134") {
                 if (!intersectionRight.wall.collisions.right) {
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
                     this.velocityX *= multiplier;
@@ -46,9 +46,7 @@
                     intersectionRight.wall.velocityX = this.velocityX;
                     intersectionRight.wall.dx = this.dx
                     intersectionRight.wall.position.x = this.position.x + this.width;
-                    
                     return
-
                 }
             }
             this.velocityX = 0;
@@ -58,7 +56,7 @@
             return;
         }
         if (intersectionLeft) {
-            if (intersectionLeft.wall.color == "#7f3f00") {
+            if (intersectionLeft.wall.color == "#ad6134") {
 
                     if (!intersectionLeft.wall.collisions.left) {
                     let multiplier = Math.min(((this.width * this.height) / (intersectionLeft.wall.width * intersectionLeft.wall.height)), 1);

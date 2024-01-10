@@ -21,6 +21,7 @@ class Utils {
         y: 0
     }
     static stageLayout = [];
+    static currentStage;
     static walls = [];
     static entities = [];
 

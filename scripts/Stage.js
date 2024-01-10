@@ -3,9 +3,13 @@ class Stage {
         this.layout = layout;
         this.cellSize = cellSize;
         this.walls = [];
+        this.movables = [];
         this.entities = [];
         this.buttons = [];
-        this.spawnPoint = {}
+        this.spawnPoint = {};
+
+
+        this.initStage();
     }
 
     initStage() {
@@ -21,11 +25,19 @@ class Stage {
                 case 1:
                     this.walls.push(new Sprite({x, y, width, height, color: "black"}));
                     break;
-                case 2:
-                    this.buttons.push(new TriggerBox({x, y, width, height, color: "orange"}));
-                    break;
-                case 3: 
-                    this.walls.push(new Interactive({x, y, width, height, connectedId, color: "brown", pointA: x, y, x, y: y - height}));
+                    case 2:
+                        this.buttons.push(new TriggerBox({id, x, y, width, height, color: "orange"}));
+                        break;
+                    case 3: 
+                    let pointA = {
+                        x: tile.x,
+                        y: tile.y
+                    }
+                    let pointB = {
+                        x: tile.x,
+                        y: tile.y - height
+                    }
+                    this.walls.push(new Interactive({x, y, width, height, connectedId, color: "brown", pointA, pointB }));
                     break;  
                 case 4:
                     // spike
@@ -35,6 +47,7 @@ class Stage {
                     break;
                 case 6:
                     this.spawnPoint = { x, y };
+                    console.log(this.spawnPoint)
                     break;
             }
         });

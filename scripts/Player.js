@@ -7,7 +7,7 @@ class Player extends Entity{
             height: height, 
             color: color, 
             walls: walls, 
-            speed: 15, 
+            speed: 10, 
             gravity: 0.8,
             entities: entities
         });
@@ -19,7 +19,7 @@ class Player extends Entity{
         };
         this.acceleration = 0.03;
         this.friction = 0.1
-        this.jumpStrength = 15;
+        this.jumpStrength = 10;
         this.keybinds = keybinds;
     }
     update(context, camera) {
@@ -29,6 +29,8 @@ class Player extends Entity{
     }
 
     jump() {
+        console.log(this.walls)
+        console.log(this.position)
         if (this.collision.bottom) {
             this.velocityY = -this.jumpStrength;
         }

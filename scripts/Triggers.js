@@ -33,7 +33,7 @@ class TriggerBox extends Sprite{
     getEntitiesInside(entities) {
         return entities.filter(entity => this.isEntityInside(entity));
     }
-
+    
     update(context, entities, camera) {
         this.isPressed = this.getEntitiesInside(entities).length > 0;
         this.draw(context, camera);

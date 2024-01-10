@@ -10,6 +10,6 @@ class Sprite {
     }
     draw(context, camera) {
         context.fillStyle = this.color;
-        context.fillRect(this.position.x, this.position.y - camera.y, this.width, this.height);
+        context.fillRect(this.position.x - camera.x, this.position.y - camera.y, this.width, this.height);
     }
 }

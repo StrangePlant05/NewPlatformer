@@ -1,6 +1,5 @@
 let jumped = false;
 let jumped2 = false;
-let jumped3 = false;
 
 document.getElementById("ak").addEventListener("click",(event)=>{
     let jumpbuttonconfig = document.getElementById("wagaegs").value;
@@ -28,10 +27,6 @@ document.addEventListener("keydown", (event) => {
         player2.jump();
         jumped2 = true;
     }
-    if (eventKey === Utils.keybindsPlayer3.jump && !jumped3) {
-        player3.jump();
-        jumped3 = true;
-    }
     Utils.inputStates[eventKey] = true;
 });
 
@@ -39,7 +34,6 @@ document.addEventListener("keyup", (event) => {
     const eventKey = event.key.toLowerCase();
     if (eventKey === Utils.keybindsPlayer1.jump) jumped = false;
     if (eventKey === Utils.keybindsPlayer2.jump) jumped2 = false;
-    if (eventKey === Utils.keybindsPlayer3.jump) jumped3 = false;
     Utils.inputStates[eventKey] = false;
 });
 
