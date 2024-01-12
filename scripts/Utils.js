@@ -113,7 +113,7 @@ class Utils {
 
     static checkOverlap(self, sensitivity) {
         return !!Utils.raycast(self, {x: self.position.x + sensitivity, y: self.position.y + sensitivity}, {x: 1, y: 0}, self.width - sensitivity, self.walls) || 
-             !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
+            !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
     }
 
     static getDistance(point1, point2) {
