@@ -1,5 +1,5 @@
 class Player extends Entity{
-    constructor({x, y, width, height, color, walls, keybinds, entities}) {
+    constructor({x, y, width, height, color, walls, keybinds, entities, respawn}) {
         super({
             x: x, 
             y: y, 
@@ -19,8 +19,9 @@ class Player extends Entity{
         };
         this.acceleration = 0.03;
         this.friction = 0.1
-        this.jumpStrength = 10;
+        this.jumpStrength = 20;
         this.keybinds = keybinds;
+        this.respawn = respawn;
     }
     update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);
@@ -29,10 +30,15 @@ class Player extends Entity{
     }
 
     jump() {
-        console.log(this.walls)
-        console.log(this.position)
         if (this.collision.bottom) {
             this.velocityY = -this.jumpStrength;
         }
+    }
+
+    killYourselfNOW() {
+        this.position = {...this.respawn};
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.dx = 0;
     }
 }

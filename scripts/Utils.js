@@ -11,19 +11,12 @@ class Utils {
         moveLeft: "arrowleft",
         moveRight: "arrowright"
     }
-    static keybindsPlayer3 = {
-        jump: "k",
-        moveLeft: "j",
-        moveRight: "l"
-    }
     static mouse = {
         x: 0,
         y: 0
     }
     static stageLayout = [];
     static currentStage;
-    static walls = [];
-    static entities = [];
 
     static moveTowards(current, target, maxDelta) {
         const difference = target - current;
@@ -118,18 +111,13 @@ class Utils {
 
     }
 
-    static getDistance(point1, point2) {
-        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
+    static checkOverlap(self, sensitivity) {
+        return !!Utils.raycast(self, {x: self.position.x + sensitivity, y: self.position.y + sensitivity}, {x: 1, y: 0}, self.width - sensitivity, self.walls) || 
+             !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
     }
 
-    static async fetchStage(path) {
-        try {
-            const response = await fetch(path);
-            const data = await response.json();
-            return new Promise((resolve) => {
-                resolve(data);
-            })
-        } catch (e) {}
+    static getDistance(point1, point2) {
+        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
     }
 
     static loadJsonFile(path) {

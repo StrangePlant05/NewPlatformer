@@ -15,6 +15,8 @@ let typeInput = document.getElementById('tileType');
 let idInput = document.getElementById('tileId');
 let spanRowInput = document.getElementById('spanRow');
 let spanColumnInput = document.getElementById('spanColumn');
+let moveXInput = document.getElementById('moveX');
+let moveYInput = document.getElementById('moveY');
 let idConnectInput = document.getElementById('idConnect');
 
 let selectedTile;
@@ -37,7 +39,8 @@ let colors = [
     "brown",
     "red",
     "#ad6134",
-    "green"
+    "green",
+    "yellow"
 ]
 
 refreshButton.addEventListener("click", () => {
@@ -117,7 +120,11 @@ function refreshDisplay() {
                         spanColumn: 1,
                         type: 0,
                         tile, 
-                        connectedId: []
+                        connectedId: [],
+                        move: {
+                            x: 0,
+                            y: 0
+                        }
                     })
                 }
                 levelDisplay.appendChild(row);
@@ -238,6 +245,32 @@ spanRowInput.addEventListener("input", () => {
     }
 });
 
+moveXInput.addEventListener("input", () => {
+    if (selectedTile) {
+        if (selectedTile.type == 7) {
+            let moveX = parseInt(moveXInput.value);
+            if (!(moveX + selectedTile.x < 0) && !(moveX + selectedTile.x + selectedTile.spanColumn > tileX)) {
+                selectedTile.move.x = moveX;
+            }
+        } else {
+            moveXInput.value = '';
+        }
+    }
+});
+
+moveYInput.addEventListener("input", () => {
+    if (selectedTile) {
+        if (selectedTile.type == 7) {
+            let moveY = parseInt(moveYInput.value);
+            if (!(moveY + selectedTile.y < 0) && !(moveY + selectedTile.Y + selectedTile.spanRow > tileY)) {
+                selectedTile.move.y = moveY;
+            }
+        } else {
+            moveXInput.value = '';
+        }
+    }
+});
+
 idConnectInput.addEventListener("input", () => {
     let inputText = "[" + idConnectInput.value + "]";
     try {
@@ -260,6 +293,9 @@ function exportToJson() {
         let newHeight = tiles[i].tileSize * tiles[i].spanRow;
         let newType = tiles[i].type;
         let newConnectedId = tiles[i].connectedId;
+        let newMove = tiles[i].move;
+        newMove.x = newX + (newMove.x * tiles[i].tileSize);
+        newMove.y = newY + (newMove.y * tiles[i].tileSize);
 
         if (seenIds[tiles[i].id]) {
             continue;
@@ -275,6 +311,7 @@ function exportToJson() {
             height: newHeight,
             type: newType,
             connectedId: newConnectedId,
+            move: newMove
         });
     }
 

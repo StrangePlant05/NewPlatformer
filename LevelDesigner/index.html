@@ -41,6 +41,9 @@
                 <label>
                     <input type="radio" name="brushSelect" value="none">Spawn Point
                 </label>
+                <label>
+                    <input type="radio" name="brushSelect" value="none">Movable
+                </label>
             </div>
         </div>
         <div id="tileProperties" class="subLevel">
@@ -48,6 +51,8 @@
             <p>Id: </p><input type="text" id="tileId">
             <p>Span Column: </p><input type="number" id="spanColumn" min="1">
             <p>Span Row: </p><input type="number" id="spanRow" min="1">
+            <p>Move X: </p><input type="number" id="moveX">
+            <p>Move Y: </p><input type="number" id="moveY">
             <p>Id Connect (for buttons): </p><textarea type="text" id="idConnect" rows="5"></textarea>
             <button id="connect">Connect To Tile</button>
         </div>

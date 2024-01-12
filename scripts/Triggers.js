@@ -1,24 +1,11 @@
 class TriggerBox extends Sprite{
     constructor({id, x, y, width, height, color}) {
         super({x, y, width, height, color})
-        this.isPressed = false;
+        this.isTouching = false;
         this.id = id;
     }
 
     isEntityInside(entity) {
-        // const entityX = entity.position.x;
-        // const entityY = entity.position.y;
-        // const entityWidth = entity.width;
-        // const entityHeight = entity.height;
-
-        // const insideX = (entityX >= this.x && entityX <= this.x + this.width) ||
-        //     (entityX + entityWidth >= this.x && entityX + entityWidth <= this.x + this.width);
-
-        // const insideY = (entityY >= this.y && entityY <= this.y + this.height) ||
-        //     (entityY + entityHeight >= this.y && entityY + entityHeight <= this.y + this.height);
-
-        // return insideX && insideY;
-
         const entityX = entity.position.x;
         const entityY = entity.position.y;
         const entityWidth = entity.width;
@@ -35,7 +22,7 @@ class TriggerBox extends Sprite{
     }
     
     update(context, entities, camera) {
-        this.isPressed = this.getEntitiesInside(entities).length > 0;
+        this.isTouching = this.getEntitiesInside(entities).length > 0;
         this.draw(context, camera);
     }
 }

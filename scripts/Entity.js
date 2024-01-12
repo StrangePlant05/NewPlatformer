@@ -4,6 +4,8 @@
         this.walls = walls;
         this.gravity = gravity;
         this.speed = speed;
+        this.originalX = x;
+        this.originalY = y;
         this.velocityX = 0;
         this.velocityY = 0;
         this.dx = 0;
@@ -17,6 +19,13 @@
         this.checkHorizontalCollision();
         this.applyGravity();
         this.checkVerticalCollision();
+        if (Utils.checkOverlap(this, 4)) {
+            this.velocityX = 0;
+            this.velocityY = 0;
+            this.position.x = this.originalX;
+            this.position.y = this.originalY;
+            this.dx = 0;
+        }
     }
 
     applyGravity() {
@@ -38,7 +47,7 @@
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.entities));
 
         if (intersectionRight) {
-            if (intersectionRight.wall.color == "#ad6134") {
+            if (intersectionRight.wall instanceof Prop) {
                 if (!intersectionRight.wall.collisions.right) {
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
                     this.velocityX *= multiplier;
@@ -51,12 +60,11 @@
             }
             this.velocityX = 0;
             this.position.x = intersectionRight.wall.position.x - this.width - 0.01
-            console.log("a")
             this.dx = 0;
             return;
         }
         if (intersectionLeft) {
-            if (intersectionLeft.wall.color == "#ad6134") {
+            if (intersectionLeft.wall instanceof Prop) {
 
                     if (!intersectionLeft.wall.collisions.left) {
                     let multiplier = Math.min(((this.width * this.height) / (intersectionLeft.wall.width * intersectionLeft.wall.height)), 1);
@@ -90,14 +98,16 @@
 
         if (intersectionBottom) {
             if (intersectionBottom.wall.velocityX) {
-                this.dx = intersectionBottom.wall.dx
+                this.position.x += intersectionBottom.wall.velocityX;
+            }
+            if (intersectionBottom.wall instanceof Interactive) {
+                this.position.x += intersectionBottom.wall.speed * Math.sign(Math.ceil(intersectionBottom.wall.position.x) - Math.ceil((intersectionBottom.wall.goingToB ? intersectionBottom.wall.pointB.x : intersectionBottom.wall.pointA.x))) * -1
             }
             this.velocityY = 0;
             this.position.y = intersectionBottom.wall.position.y - this.height - 0.01;
             return;
         }
         if (intersectionTop) {
-            // if (this.velocityY <= 0.8 && this.velocityY >= -0.8) return
             this.velocityY = 0;
             this.position.y = intersectionTop.wall.position.y + intersectionTop.wall.height + 0.01        
             return;

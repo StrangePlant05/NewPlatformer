@@ -1,17 +1,17 @@
 let jumped = false;
 let jumped2 = false;
 
-document.getElementById("ak").addEventListener("click",(event)=>{
-    let jumpbuttonconfig = document.getElementById("wagaegs").value;
+// document.getElementById("ak").addEventListener("click",(event)=>{
+//     let jumpbuttonconfig = document.getElementById("wagaegs").value;
 
-    if (jumpbuttonconfig.length == 1){
-    Utils.keybindsPlayer1.jump = jumpbuttonconfig.toLowerCase();
-    }else{
-     Utils.keybindsPlayer1.jump = jumpbuttonconfig;
-    }
+//     if (jumpbuttonconfig.length == 1){
+//     Utils.keybindsPlayer1.jump = jumpbuttonconfig.toLowerCase();
+//     }else{
+//      Utils.keybindsPlayer1.jump = jumpbuttonconfig;
+//     }
     
-    alert(jumpbuttonconfig)
-});
+//     alert(jumpbuttonconfig)
+// });
 
 window.addEventListener("resize", (event)=> {
     canvas.width = window.innerWidth;
