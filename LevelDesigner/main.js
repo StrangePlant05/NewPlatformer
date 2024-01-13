@@ -44,12 +44,12 @@ let colors = [
 ]
 
 refreshButton.addEventListener("click", () => {
-    tileX = parseInt(tileXInput.value);
-    tileY = parseInt(tileYInput.value);
-    tileSize = parseInt(tileSizeInput.value);
     refreshDisplay();
 });
 lockButton.addEventListener("click", () => {
+    tileX = parseInt(tileXInput.value);
+    tileY = parseInt(tileYInput.value);
+    tileSize = parseInt(tileSizeInput.value);
     refreshDisplay();
     tileXInput.disabled = true;
     tileYInput.disabled = true;
