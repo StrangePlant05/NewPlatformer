@@ -14,8 +14,8 @@ class Stage {
         this.layout.forEach(tile => {
             let x = tile.x;
             let y = tile.y;
-            let width = tile.width;
-            let height = tile.height;
+            let width = tile.width + 0.5;
+            let height = tile.height + 0.5;
             let type = tile.type;
             let connectedId = tile.connectedId;
             let id = tile.id;

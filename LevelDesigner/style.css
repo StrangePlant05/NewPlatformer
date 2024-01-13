@@ -17,7 +17,8 @@ body {
     display: grid;
     place-items: center;
     width: 300px;
-    height: fit-content;
+    height: 80vh;
+    overflow-y: scroll;
     background-color: #b2b2b2;
     margin: 20px;
     border-radius: 20px;

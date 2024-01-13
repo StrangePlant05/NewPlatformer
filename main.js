@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 let respawn = {}
 
 document.addEventListener("DOMContentLoaded", () => {
-    Utils.stageLayout = Utils.loadJsonFile("data/tilesAA.json")
+    Utils.stageLayout = Utils.loadJsonFile("data/aaa.json")
     if (Utils.stageLayout) {
         Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
         respawn =  { ...Utils.currentStage.spawnPoint };
@@ -22,8 +22,8 @@ function startGame(stage) {
     player1 = new Player({
         x: respawn.x, 
         y: respawn.y, 
-        width: 80, 
-        height: 100, 
+        width: 60, 
+        height: 80, 
         color: "red", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer1,
@@ -33,8 +33,8 @@ function startGame(stage) {
     player2 = new Player({
         x: respawn.x,
         y: respawn.y,
-        width: 50, 
-        height: 70, 
+        width: 39.4, 
+        height: 60, 
         color: "blue", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer2,
