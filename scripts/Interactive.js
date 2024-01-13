@@ -4,7 +4,7 @@ class Interactive extends Sprite{
         this.connectedId = connectedId;
         this.pointA = { ...pointA};
         this.pointB = { ...pointB};
-        this.speed = 3;
+        this.speed = 2;
         this.velocityX = 0;
         this.goingToB = false;
     }

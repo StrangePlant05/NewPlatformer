@@ -1,0 +1,35 @@
+{
+  "project": {
+    "tileX": 40,
+    "tileY": 20,
+    "tileSize": 40
+  },
+  "tiles": [
+    {
+      "id": "13:4:6",
+      "x": 520,
+      "y": 160,
+      "width": 40,
+      "height": 40,
+      "type": 6,
+      "connectedId": [],
+      "move": {
+        "x": 520,
+        "y": 160
+      }
+    },
+    {
+      "id": "11:7:1",
+      "x": 440,
+      "y": 280,
+      "width": 440,
+      "height": 280,
+      "type": 1,
+      "connectedId": [],
+      "move": {
+        "x": 18040,
+        "y": 11480
+      }
+    }
+  ]
+}

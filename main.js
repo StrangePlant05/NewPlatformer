@@ -6,12 +6,30 @@ canvas.height = window.innerHeight;
 let respawn = {}
 
 document.addEventListener("DOMContentLoaded", () => {
-    Utils.stageLayout = Utils.loadJsonFile("data/aaa.json")
-    if (Utils.stageLayout) {
-        Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
-        respawn =  { ...Utils.currentStage.spawnPoint };
-        startGame(Utils.currentStage);
-    }
+    // Utils.stageLayout = Utils.loadJsonFile("data/tilesAA.json", null)
+    // if (Utils.stageLayout) {
+    //     Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
+    //     respawn =  { ...Utils.currentStage.spawnPoint };
+    //     startGame(Utils.currentStage);
+    // }
+})
+
+document.getElementById('file').addEventListener('change', (event) => {
+    Utils.loadJsonFile(null, event.target)
+        .then(jsonData => {
+            try {
+                Utils.currentStage = new Stage({layout: jsonData.tiles, cellSize: 40})
+                respawn =  { ...Utils.currentStage.spawnPoint };
+                startGame(Utils.currentStage);
+            } catch(e) {
+                Utils.currentStage = new Stage({layout: jsonData, cellSize: 40})
+                respawn =  { ...Utils.currentStage.spawnPoint };
+                startGame(Utils.currentStage);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 })
 
 let player1;
@@ -22,24 +40,28 @@ function startGame(stage) {
     player1 = new Player({
         x: respawn.x, 
         y: respawn.y, 
-        width: 60, 
-        height: 80, 
+        width: 58, 
+        height: 85.4, 
         color: "red", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer1,
         walls: Utils.currentStage.walls,
-        respawn
+        respawn,
+        jumpStrength: 14,
+        speed: 5
     });
     player2 = new Player({
         x: respawn.x,
         y: respawn.y,
-        width: 39.4, 
-        height: 60, 
+        width: 58, 
+        height: 58, 
         color: "blue", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer2,
         walls: Utils.currentStage.walls,
-        respawn
+        respawn,
+        jumpStrength: 16,
+        speed: 8
     });
 
     stage.entities.push(player1)

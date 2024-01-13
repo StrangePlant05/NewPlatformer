@@ -44,6 +44,9 @@ let colors = [
 ]
 
 refreshButton.addEventListener("click", () => {
+    tileX = parseInt(tileXInput.value);
+    tileY = parseInt(tileYInput.value);
+    tileSize = parseInt(tileSizeInput.value);
     refreshDisplay();
 });
 lockButton.addEventListener("click", () => {
@@ -71,11 +74,13 @@ submitButton.addEventListener("click", () => {
 function toggleUi() {
     uiToggle = !uiToggle;
     let display = uiToggle ? "flex" : "none";
-    let width = uiToggle ? "300px" : "fit-content"
+    let width = uiToggle ? "20vw" : "fit-content"
+    let height = uiToggle ? "80vh" : "fit-content"
     document.getElementById("levelProperties").style.display = display;
     document.getElementById("tileProperties").style.display = display;
     document.getElementById("brush").style.display = display;
     document.getElementById("level").style.width = width;
+    document.getElementById("level").style.height = height;
     refreshButton.style.display = display;
     submitButton.style.display = display;
 }
@@ -88,10 +93,6 @@ function refreshDisplay() {
     } else {
         tiles = [];
         levelDisplay.innerHTML = '';
-
-        tileX = parseInt(tileXInput.value);
-        tileY = parseInt(tileYInput.value);
-        tileSize = parseInt(tileSizeInput.value);
     
         if (Number.isInteger(tileX) && Number.isInteger(tileY) && Number.isInteger(tileSize)) {
             for (let y = 0; y < tileY; y++) {
@@ -170,6 +171,8 @@ function tileClick(tile) {
                 idInput.value = currentTile.id;
                 spanRowInput.value = currentTile.spanRow;
                 spanColumnInput.value = currentTile.spanColumn;
+                moveXInput.value = currentTile.move.x;
+                moveYInput.value = currentTile.move.y;
                 idConnectInput.value = JSON.stringify(currentTile.connectedId);
     
                 if (type > colors.length - 1 || type == -1) return;   
@@ -246,27 +249,27 @@ spanRowInput.addEventListener("input", () => {
 });
 
 moveXInput.addEventListener("input", () => {
-    if (selectedTile) {
+    if (selectedTile && moveXInput.value != '') {
         if (selectedTile.type == 7) {
             let moveX = parseInt(moveXInput.value);
             if (!(moveX + selectedTile.x < 0) && !(moveX + selectedTile.x + selectedTile.spanColumn > tileX)) {
                 selectedTile.move.x = moveX;
             }
         } else {
-            moveXInput.value = '';
+            moveXInput.value = 0;
         }
     }
 });
 
 moveYInput.addEventListener("input", () => {
-    if (selectedTile) {
+    if (selectedTile && moveXInput.value != '') {
         if (selectedTile.type == 7) {
             let moveY = parseInt(moveYInput.value);
             if (!(moveY + selectedTile.y < 0) && !(moveY + selectedTile.Y + selectedTile.spanRow > tileY)) {
                 selectedTile.move.y = moveY;
             }
         } else {
-            moveXInput.value = '';
+            moveXInput.value = 0;
         }
     }
 });
@@ -282,56 +285,74 @@ idConnectInput.addEventListener("input", () => {
 });
 
 function exportToJson() {
-    let newTiles = [];
-    let seenIds = {};
-    for (let i = 0; i < tiles.length; i++) {
-        if (tiles[i].type == 0) continue;
-        let newId = tiles[i].id;
-        let newX = tiles[i].x * tiles[i].tileSize;
-        let newY = tiles[i].y * tiles[i].tileSize;
-        let newWidth = tiles[i].tileSize * tiles[i].spanColumn;
-        let newHeight = tiles[i].tileSize * tiles[i].spanRow;
-        let newType = tiles[i].type;
-        let newConnectedId = tiles[i].connectedId;
-        let newMove = tiles[i].move;
-        newMove.x = newX + (newMove.x * tiles[i].tileSize);
-        newMove.y = newY + (newMove.y * tiles[i].tileSize);
-
-        if (seenIds[tiles[i].id]) {
-            continue;
-        }
-    
-        seenIds[tiles[i].id] = true;
-
-        newTiles.push({
-            id: newId,
-            x: newX,
-            y: newY,
-            width: newWidth,
-            height: newHeight,
-            type: newType,
-            connectedId: newConnectedId,
-            move: newMove
-        });
+    let newJson = {
+        project: {
+            tileX,
+            tileY,
+            tileSize
+        },
+        tiles
     }
 
-    // Convert the array to a JSON string
-    var jsonString = JSON.stringify(newTiles, null, 2); // The third parameter (2) is for indentation
+    var jsonString = JSON.stringify(newJson, null, 2);
 
-    // Create a Blob from the JSON string
     var blob = new Blob([jsonString], { type: "application/json" });
 
-    // Create a download link
     var downloadLink = document.createElement("a");
     downloadLink.href = URL.createObjectURL(blob);
-    downloadLink.download = "tiles.json"; // Specify the filename
+    downloadLink.download = "tiles.json";
 
-    // Append the link to the document
     document.body.appendChild(downloadLink);
 
-    // Trigger a click on the link to start the download
     downloadLink.click();
 
-    // Remove the link from the document
     document.body.removeChild(downloadLink);
 }
+
+document.getElementById('file').addEventListener('input', (event) => {
+    Utils.loadJsonFile(null, event.target)
+        .then(jsonData => {
+            levelDisplay.innerHTML = '';
+            tiles = jsonData.tiles;
+            tileX = jsonData.project.tileX;
+            tileY = jsonData.project.tileY;
+            tileSize = jsonData.project.tileSize;
+            lock = true;
+
+            let row;
+            for (let i = 0; i < tiles.length; i++) {
+                if (i % tileX == 0) {
+                    !!row ? levelDisplay.appendChild(row) : row = document.createElement("div");
+                }
+                if (i % tileX == 0) {
+                    row = document.createElement("div");
+                    console.log("a")
+                }
+                let tile = document.createElement("div");
+                tile.style.width = tileSize + "px";
+                tile.style.height = tileSize + "px";
+                tile.style.borderWidth = "1px";
+                tile.style.border = "solid";
+                tile.style.borderColor = "#b2b2b250";
+                tile.style.userSelect = "none"
+                tile.style.display = "grid"
+                tile.style.placeItems = "center"
+                tile.style.background = colors[tiles[i].type]
+                tiles[i].tile = tile;
+                tile.addEventListener("click", () => {
+                    tileClick(tile);
+                })
+                row.appendChild(tile);
+            }
+
+            refreshDisplay();
+            tileXInput.disabled = true;
+            tileYInput.disabled = true;
+            tileSizeInput.disabled = true;
+
+            lock = true;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+})

@@ -4,7 +4,13 @@
     overflow: hidden;
 }
 body{
-    background: url("https://i.ytimg.com/vi/1KKaoFIXnmk/maxresdefault.jpg");
+    /* background: url("https://i.ytimg.com/vi/1KKaoFIXnmk/maxresdefault.jpg"); */
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+#file {
+    position: absolute; 
+    top: 10px;
+    left: 10px;
 }

@@ -19,7 +19,7 @@
         this.checkHorizontalCollision();
         this.applyGravity();
         this.checkVerticalCollision();
-        if (Utils.checkOverlap(this, 4)) {
+        if (Utils.checkOverlap(this, 7)) {
             this.velocityX = 0;
             this.velocityY = 0;
             this.position.x = this.originalX;
@@ -35,15 +35,15 @@
 
     checkHorizontalCollision() {
         const intersectionLeft = (
-            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 5, this.walls) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.walls) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height - 5 }, { x: 0, y: -1 }, this.height, this.walls)|| 
-            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 5, this.entities) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.entities) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height - 5 }, { x: 0, y: -1 }, this.height, this.entities));
              
         const intersectionRight = (
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 5, this.walls) || 
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.walls) || 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.walls)||
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 5, this.entities) || 
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.entities) || 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.entities));
 
         if (intersectionRight) {
@@ -51,6 +51,7 @@
                 if (!intersectionRight.wall.collisions.right) {
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
                     this.velocityX *= multiplier;
+                    multiplier = 0.8;
                     this.dx *= multiplier;
                     intersectionRight.wall.velocityX = this.velocityX;
                     intersectionRight.wall.dx = this.dx
@@ -69,6 +70,7 @@
                     if (!intersectionLeft.wall.collisions.left) {
                     let multiplier = Math.min(((this.width * this.height) / (intersectionLeft.wall.width * intersectionLeft.wall.height)), 1);
                     this.velocityX *= multiplier;
+                    multiplier = 0.8;
                     this.dx *= multiplier;
                     intersectionLeft.wall.velocityX = this.velocityX;
                     intersectionLeft.wall.dx = this.dx;
@@ -85,10 +87,10 @@
 
     checkVerticalCollision() {
         const intersectionBottom = 
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height + 5 }, { x: -1, y: 0 }, this.width, this.walls) || 
-            Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height + 5 }, { x: 1, y: 0 }, this.width, this.walls) ||
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height + 5 }, { x: -1, y: 0 }, this.width, this.entities) || 
-            Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height + 5}, { x: 1, y: 0 }, this.width, this.entities);
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height + 3 }, { x: -1, y: 0 }, this.width, this.walls) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height + 3 }, { x: 1, y: 0 }, this.width, this.walls) ||
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height + 3 }, { x: -1, y: 0 }, this.width, this.entities) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height + 3}, { x: 1, y: 0 }, this.width, this.entities);
 
         const intersectionTop = 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: -1, y: 0 }, this.width, this.walls) || 
@@ -112,5 +114,13 @@
             this.position.y = intersectionTop.wall.position.y + intersectionTop.wall.height + 0.01        
             return;
         }
+    }
+
+    killYourselfNOW() {
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.position.x = this.originalX;
+        this.position.y = this.originalY;
+        this.dx = 0;
     }
 }

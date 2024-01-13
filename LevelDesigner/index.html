@@ -13,10 +13,11 @@
             <p>Tile Y Amount: </p><input type="number" id="tileY" min="1">
             <p>Tile Size: </p><input type="number" id="tileSize" min="1">
             <button id="lock">Lock Level Size</button>
+            <input type="file" id="file">
         </div>
         <div id="brush" class="subLevel">
             <p>Brush Type: </p>
-            <div>
+            <div class="brushdiv">
                 <label>
                     <input type="radio" name="brushSelect" value="none">Select
                 </label>
@@ -65,4 +66,5 @@
     <div id="levelDisplay"></div>
 </body>
 <script src="main.js"></script>
+<script src="../scripts/Utils.js"></script>
 </html>

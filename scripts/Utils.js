@@ -112,24 +112,44 @@ class Utils {
     }
 
     static checkOverlap(self, sensitivity) {
-        return !!Utils.raycast(self, {x: self.position.x + sensitivity, y: self.position.y + sensitivity}, {x: 1, y: 0}, self.width - sensitivity, self.walls) || 
-            !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
+        return !!Utils.raycast(self, {x: self.position.x + sensitivity, y: self.position.y + sensitivity}, {x: 1, y: 0}, self.width - (sensitivity * 2), self.walls)
+            // !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
     }
 
     static getDistance(point1, point2) {
         return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
     }
 
-    static loadJsonFile(path) {
-        var request = new XMLHttpRequest();
-        request.open("GET", path, false);
-        request.send();
-
-        if (request.status === 200) {
-            return JSON.parse(request.responseText);
+    static loadJsonFile(path, fileInput) {
+        if (fileInput) {
+            return new Promise((resolve, reject) => {
+                var file = fileInput.files[0];
+                var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                    try {
+                        var jsonData = JSON.parse(e.target.result);
+                        resolve(jsonData);
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        reject(null);
+                    }
+                };
+    
+                reader.readAsText(file);
+            });
         } else {
-            console.error('Error fetching JSON. Status: ', request.status);
-            return null;
+            var request = new XMLHttpRequest();
+            request.open("GET", path, false);
+            request.send();
+    
+            if (request.status === 200) {
+                return JSON.parse(request.responseText);
+            } else {
+                console.error('Error fetching JSON. Status: ', request.status);
+                return null;
+            }
         }
     }
 }
+
