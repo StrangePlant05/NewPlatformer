@@ -6,12 +6,14 @@ canvas.height = window.innerHeight;
 let respawn = {}
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Utils.stageLayout = Utils.loadJsonFile("data/tilesAA.json", null)
-    // if (Utils.stageLayout) {
-    //     Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
-    //     respawn =  { ...Utils.currentStage.spawnPoint };
-    //     startGame(Utils.currentStage);
-    // }
+    Utils.stageLayout = Utils.loadJsonFile("data/aaaaa.json", null)
+    if (Utils.stageLayout) {
+        Utils.currentStage = new Stage({layout: Utils.stageLayout.tiles, cellSize: 40})
+        respawn =  { ...Utils.currentStage.spawnPoint };
+        startGame(Utils.currentStage);
+    }
+
+    console.log("aaa")
 })
 
 document.getElementById('file').addEventListener('change', (event) => {
