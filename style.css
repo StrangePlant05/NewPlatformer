@@ -14,3 +14,41 @@ body{
     top: 10px;
     left: 10px;
 }
+#canvas {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+/* .menu {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    display: grid;
+    place-content: start;
+    justify-content: center;
+}
+.title {
+    display: grid;
+    place-items: center;
+    font-size: 60pt;
+    font-weight: 700;
+    margin-top: 30px;
+    background-color: #b2b2b2;
+}
+.buttons {
+    display: grid;
+    place-items: center;
+    font-size: 30pt;
+    font-weight: 700;
+    margin-top: 150px;
+}
+.buttonItems {
+    margin: 20px;
+    background-color: #b2b2b2;
+} */

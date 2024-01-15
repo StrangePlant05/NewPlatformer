@@ -8,7 +8,7 @@ let respawn = {}
 document.addEventListener("DOMContentLoaded", () => {
     Utils.stageLayout = Utils.loadJsonFile("data/aaaaa.json", null)
     if (Utils.stageLayout) {
-        Utils.currentStage = new Stage({layout: Utils.stageLayout.tiles, cellSize: 40})
+        Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
         respawn =  { ...Utils.currentStage.spawnPoint };
         startGame(Utils.currentStage);
     }
@@ -20,7 +20,7 @@ document.getElementById('file').addEventListener('change', (event) => {
     Utils.loadJsonFile(null, event.target)
         .then(jsonData => {
             try {
-                Utils.currentStage = new Stage({layout: jsonData.tiles, cellSize: 40})
+                Utils.currentStage = new Stage({layout: jsonData, cellSize: 40})
                 respawn =  { ...Utils.currentStage.spawnPoint };
                 startGame(Utils.currentStage);
             } catch(e) {
@@ -44,7 +44,7 @@ function startGame(stage) {
         y: respawn.y, 
         width: 58, 
         height: 85.4, 
-        color: "red", 
+        color: "#ff0000", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer1,
         walls: Utils.currentStage.walls,
@@ -57,7 +57,7 @@ function startGame(stage) {
         y: respawn.y,
         width: 58, 
         height: 58, 
-        color: "blue", 
+        color: "#0000ff", 
         entities: Utils.currentStage.entities,
         keybinds: Utils.keybindsPlayer2,
         walls: Utils.currentStage.walls,

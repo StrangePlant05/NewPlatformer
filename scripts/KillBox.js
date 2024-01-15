@@ -11,6 +11,6 @@ class KillBox extends TriggerBox {
     }
 
     getEntitiesInside(entities) {
-        return entities.filter(entity => this.isEntityInside(entity) && entity instanceof Player);
+        return entities.filter(entity => this.isEntityInside(entity) && entity instanceof Entity);
     }
 }

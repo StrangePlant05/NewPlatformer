@@ -6,7 +6,13 @@ class Stage {
         this.buttons = [];
         this.spikes = [];
         this.spawnPoint = {};
-        this.levelLayout = this.convertToLevelData(layout);
+        this.levelLayout = this.convertToLevelData(layout.tiles);
+        this.stageBounds = {
+            x: 0,
+            y: 0,
+            width: layout.project.tileX * layout.project.tileSize,
+            height: layout.project.tileY * layout.project.tileSize,
+        }
 
         this.initStage();
     }
@@ -40,7 +46,7 @@ class Stage {
                     this.walls.push(new Interactive({x, y, width, height, connectedId, color: "brown", pointA, pointB }));
                     break;  
                 case 4:
-                    this.spikes.push(new KillBox({x, y, width, height, color:"red"}));
+                    this.spikes.push(new KillBox({x, y: y + (height / 2), width, height: height / 2, color:"red"}));
                     break;
                 case 5:
                     this.entities.push(new Prop({x, y, width: width - 0.5, height: height - 0.5, color: "#ad6134", walls: this.walls, entities: this.entities}));
@@ -88,29 +94,36 @@ class Stage {
             player1.killYourselfNOW();
             player2.killYourselfNOW();
         }
+
+        if (player1.position.y > this.stageBounds.height) {
+            player1.killYourselfNOW();
+        }
+        if (player2.position.y > this.stageBounds.height) {
+            player2.killYourselfNOW();
+        }
     }
 
-    convertToLevelData(layout) {
+    convertToLevelData(tiles) {
         let newTiles = [];
         let seenIds = {};
-        for (let i = 0; i < layout.length; i++) {
-            if (layout[i].type == 0) continue;
-            let newId = layout[i].id;
-            let newX = layout[i].x * layout[i].tileSize;
-            let newY = layout[i].y * layout[i].tileSize;
-            let newWidth = layout[i].tileSize * layout[i].spanColumn;
-            let newHeight = layout[i].tileSize * layout[i].spanRow;
-            let newType = layout[i].type;
-            let newConnectedId = layout[i].connectedId;
-            let newMove = {...layout[i].move};
-            newMove.x = newX + (newMove.x * layout[i].tileSize);
-            newMove.y = newY + (newMove.y * layout[i].tileSize);
+        for (let i = 0; i < tiles.length; i++) {
+            if (tiles[i].type == 0) continue;
+            let newId = tiles[i].id;
+            let newX = tiles[i].x * tiles[i].tileSize;
+            let newY = tiles[i].y * tiles[i].tileSize;
+            let newWidth = tiles[i].tileSize * tiles[i].spanColumn;
+            let newHeight = tiles[i].tileSize * tiles[i].spanRow;
+            let newType = tiles[i].type;
+            let newConnectedId = tiles[i].connectedId;
+            let newMove = {...tiles[i].move};
+            newMove.x = newX + (newMove.x * tiles[i].tileSize);
+            newMove.y = newY + (newMove.y * tiles[i].tileSize);
 
-            if (seenIds[layout[i].id]) {
+            if (seenIds[tiles[i].id]) {
                 continue;
             }
         
-            seenIds[layout[i].id] = true;
+            seenIds[tiles[i].id] = true;
 
             newTiles.push({
                 id: newId,
