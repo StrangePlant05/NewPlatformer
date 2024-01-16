@@ -119,6 +119,9 @@ body{
     user-select: none;
     transform: scale(1);
 }
+a {
+    text-decoration: none;
+}
 .buttonItems:hover {
     transform: scale(1.1);
     box-shadow: 0 0 2vh #f78e51;
