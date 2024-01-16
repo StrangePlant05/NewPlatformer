@@ -15,6 +15,18 @@ class Utils {
         x: 0,
         y: 0
     }
+    static colors = [
+        "#00000000",
+        "black",
+        "orange",
+        "brown",
+        "red",
+        "#ad6134",
+        "green",
+        "yellow",
+        "#34ebe8",
+        "#32e641"
+    ]
     static stageLayout = [];
     static currentStage;
 

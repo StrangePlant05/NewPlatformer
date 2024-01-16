@@ -4,15 +4,36 @@
         this.walls = walls;
         this.gravity = gravity;
         this.speed = speed;
+        this.respawn = {
+            x,
+            y
+        }
         this.originalX = x;
         this.originalY = y;
         this.velocityX = 0;
         this.velocityY = 0;
         this.dx = 0;
         this.entities = entities;
+        this.isDead = false;
+        this.deathPosition = {};
+        this.deathTimeout;
+        this.originalColor = color;
+        this.playerOpacity = 100;
     }
 
     update(context, camera) {
+        if (!this.isDead) {
+            this.color = this.originalColor;
+            this.draw(context, camera);
+        } else {
+            let applyOpacity;
+            this.playerOpacity = Utils.moveTowards(this.playerOpacity, 0, 4);
+            applyOpacity = this.playerOpacity.toString().length == 1 ? "0" + this.playerOpacity : this.playerOpacity;
+            this.color = this.originalColor + applyOpacity;
+            this.dx = Utils.moveTowards(this.dx, 0, 0.07);
+            this.velocityY = Utils.moveTowards(this.velocityY, 0, 2);
+            this.draw(context, camera);
+        }
         this.draw(context, camera);
         this.position.x += this.velocityX;
         this.velocityX = this.speed * this.dx;
@@ -20,11 +41,7 @@
         this.applyGravity();
         this.checkVerticalCollision();
         if (Utils.checkOverlap(this, 7)) {
-            this.velocityX = 0;
-            this.velocityY = 0;
-            this.position.x = this.originalX;
-            this.position.y = this.originalY;
-            this.dx = 0;
+            this.killYourselfNOW(context, camera);
         }
     }
 
@@ -47,6 +64,7 @@
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.entities));
 
         if (intersectionRight) {
+            if (intersectionRight.wall.isDead || this.isDead && intersectionRight.wall instanceof Entity) return;
             if (intersectionRight.wall instanceof Prop) {
                 if (!intersectionRight.wall.collisions.right) {
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
@@ -65,8 +83,8 @@
             return;
         }
         if (intersectionLeft) {
+            if (intersectionLeft.wall.isDead || this.isDead && intersectionLeft.wall instanceof Entity) return;
             if (intersectionLeft.wall instanceof Prop) {
-
                     if (!intersectionLeft.wall.collisions.left) {
                     let multiplier = Math.min(((this.width * this.height) / (intersectionLeft.wall.width * intersectionLeft.wall.height)), 1);
                     this.velocityX *= multiplier;
@@ -99,6 +117,7 @@
             Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 1, y: 0 }, this.width, this.entities);
 
         if (intersectionBottom) {
+            if (intersectionBottom.wall.isDead || this.isDead && intersectionBottom.wall instanceof Entity) return;
             if (intersectionBottom.wall.velocityX) {
                 this.position.x += intersectionBottom.wall.velocityX;
             }
@@ -110,17 +129,28 @@
             return;
         }
         if (intersectionTop) {
+            if (intersectionTop.wall.isDead || this.isDead && intersectionTop.wall instanceof Entity) return;
             this.velocityY = 0;
             this.position.y = intersectionTop.wall.position.y + intersectionTop.wall.height + 0.01        
             return;
         }
     }
 
-    killYourselfNOW() {
-        this.velocityX = 0;
-        this.velocityY = 0;
-        this.position.x = this.originalX;
-        this.position.y = this.originalY;
-        this.dx = 0;
+    killYourselfNOW(context, camera) {
+        this.isDead = true;
+        this.deathPosition = {x: this.position.x, y: this.position.y}
+        if (!this.deathTimeout) {
+            this.deathTimeout = setTimeout(() => {
+                this.playerOpacity = 100;
+                this.position = {...this.respawn};
+                this.velocityX = 0;
+                this.velocityY = 0;
+                this.dx = 0;
+                this.isDead = false;
+                this.update(context, camera);
+                console.log("a")
+                delete this.deathTimeout;
+            }, 500);
+        }
     }
 }

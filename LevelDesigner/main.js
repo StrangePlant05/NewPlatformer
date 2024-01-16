@@ -40,7 +40,9 @@ let colors = [
     "red",
     "#ad6134",
     "green",
-    "yellow"
+    "yellow",
+    "#34ebe8",
+    "#32e641"
 ]
 
 refreshButton.addEventListener("click", () => {

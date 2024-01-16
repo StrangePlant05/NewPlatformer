@@ -17,18 +17,6 @@ window.addEventListener("resize", (event)=> {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 });
-document.addEventListener("keydown", (event) => {
-    const eventKey = event.key.toLowerCase();
-    if (eventKey === Utils.keybindsPlayer1.jump && !jumped) {
-        player1.jump();
-        jumped = true;
-    }
-    if (eventKey === Utils.keybindsPlayer2.jump && !jumped2) {
-        player2.jump();
-        jumped2 = true;
-    }
-    Utils.inputStates[eventKey] = true;
-});
 
 document.addEventListener("keyup", (event) => {
     const eventKey = event.key.toLowerCase();
