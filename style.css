@@ -6,12 +6,6 @@ body{
     font-family: 'Rubik', sans-serif;
     font-size: 50pt;
 }
-
-#file {
-    position: absolute; 
-    top: 10px;
-    left: 10px;
-}
 #canvas {
     width: 100vw;
     height: 100vh;
@@ -32,6 +26,10 @@ body{
     justify-content: center;
     background: linear-gradient(to top, #fda76d, #ffde84);
     transition: 2s;
+}
+#file {
+    position: absolute;
+    left: 3vh;
 }
 .title {
     display: grid;
@@ -124,4 +122,58 @@ body{
 .buttonItems:hover {
     transform: scale(1.1);
     box-shadow: 0 0 2vh #f78e51;
+}
+.playerKeybindMenu {
+    background-color: #ff9955;
+    position: absolute;
+    place-items: center;
+    border-radius: 1vh;
+    font-size: 2vh;
+    top: 30vh; 
+    transition: 1s;
+    padding: 3vh;
+    border-radius: 3vh;
+    border-color: white;
+    border-width: 1vh;
+    border-style: solid;
+    width: 18vw;
+    height: 40vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    pointer-events: all;
+}
+.playerKeybindMenu input {
+    width: 100%;
+    font-size: 2vh;
+    margin: 0;
+    padding: 0;
+    height: 3vh;
+    border-width: 0;
+}
+#player1 {
+    left: -25vw;
+
+}
+#player2 {
+    right: -25vw;
+}
+.toggleSettingsPlayer1 {
+    left: 7vw !important;
+}
+.toggleSettingsPlayer2 {
+    right: 7vw !important;
+}
+h2 {
+    margin:0.5vh;
+}
+h3 {
+    margin:0.5vh;
+    background-color: black;
+    width: 80%;
+    font-size: 4vh;
+    text-align: center;
+}
+h2:hover{
+    text-decoration: underline;
 }

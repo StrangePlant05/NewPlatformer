@@ -13,11 +13,10 @@
 <body>
     <!-- <input type="text" id="wagaegs">
     <button id="ak">as</button> -->
-    <input type="file" name="uwu" id="file">
     <canvas id="canvas"></canvas>   
     <div class="menu" id="menu">
         <div class="title">
-            Some Game Thing
+           Tumatalbog
         </div>
         <div class="buttons">
             <div class="buttonItems" id="play">
@@ -26,13 +25,32 @@
             <div class="buttonItems">
                 Level Editor (beta)
             </div>
-            <div class="buttonItems">
+            <div class="buttonItems" id="settings">
                 Settings
             </div>
         </div>
         <div id="hamburgerMenu">
+            <input type="file" name="uwu" id="file">
             <i class="fa-solid fa-rotate-left" id="restartIcon"></i>
             <i class="fa-solid fa-right-from-bracket" id="leaveIcon"></i>
+        </div>
+        <div class="playerKeybindMenu" id="player1">
+            <h1>Player 1 Keybinds</h1>   
+            <h2 id="jumpPlayer1">Jump</h2>
+            <h3 id="ju1">W<h3>
+            <h2 id="leftPlayer1">Move Left</h2>
+            <h3 id="le1">A</h3>
+            <h2 id="rightPlayer1">Move Right</h2>
+            <h3 id="ri1">D<h3>
+        </div>
+        <div class="playerKeybindMenu" id="player2">
+            <h1>Player 2 Keybinds</h1>   
+            <h2 id="jumpPlayer2">Jump</h2>
+            <h3 id="ju2">ARROWUP<h3>
+            <h2 id="leftPlayer2">Move Left</h2>
+            <h3 id="le2">ARROWLEFT</h3>
+            <h2 id="rightPlayer2">Move Right</h2>
+            <h3 id="ri2">ARROWRIGHT<h3>
         </div>
     </div>
 </body>
@@ -48,5 +66,6 @@
 <script src="scripts/Finish.js"></script>
 <script src="scripts/Listeners.js"></script>
 <script src="scripts/Stage.js"></script>
+<script src="scripts/playerKeybinds.js"></script>
 <script src="main.js"></script>
 </html>

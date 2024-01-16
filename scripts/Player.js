@@ -1,3 +1,7 @@
+
+
+
+
 class Player extends Entity{
     constructor({x, y, width, height, color, walls, keybinds, entities, respawn, jumpStrength, speed}) {
         super({
@@ -29,7 +33,7 @@ class Player extends Entity{
     }
     update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);
-        this.collision = Utils.checkForCollisions(this, 20, 10);
+        this.collision = Utils.checkForCollisions(this, 10, 5);
         super.update(context, camera);
     }
 

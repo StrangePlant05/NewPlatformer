@@ -1,3 +1,5 @@
+let jump1 = document.getElementById("jumpPlayer1");
+let keynum;
 (function(){
     let canvas = document.getElementById("canvas");
     let context = canvas.getContext("2d");
@@ -6,6 +8,13 @@
     canvas.height = window.innerHeight;
     let respawn = {}
     
+    document.getElementById("jumpPlayer1").addEventListener('keypress',(event)=>{
+        if (event){
+            keynum = event.key;
+        }
+        alert(event.key)
+    })
+
     document.addEventListener("DOMContentLoaded", () => {
         Utils.stageLayout = Utils.loadJsonFile("data/aaaaa.json", null)
         if (Utils.stageLayout) {
@@ -24,7 +33,6 @@
                 Utils.currentStage = new Stage({layout: jsonData, cellSize: 40})
                 respawn =  { ...Utils.currentStage.spawnPoint };
                 startGame(Utils.currentStage);
-                stopGame();
             })
             .catch(error => {
                 console.error('Error:', error);

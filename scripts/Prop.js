@@ -11,7 +11,7 @@ class Prop extends Entity {
             gravity: 0.8,
             entities: entities
         });
-        this.collisions = {
+        this.collision = {
             top: false,
             left: false,
             bottom: false,
@@ -21,7 +21,7 @@ class Prop extends Entity {
 
     update(context, camera) {
         this.dx = Utils.moveTowards(this.dx, 0, 0.05)
-        this.collisions = Utils.checkForCollisions(this, 10, 0)
+        this.collision = Utils.checkForCollisions(this, 20, 10)
         super.update(context, camera);
     }
 }
