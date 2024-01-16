@@ -37,10 +37,11 @@
         this.draw(context, camera);
         this.position.x += this.velocityX;
         this.velocityX = this.speed * this.dx;
+        console.log(Utils.checkOverlap(this))
         this.checkHorizontalCollision();
         this.applyGravity();
         this.checkVerticalCollision();
-        if (Utils.checkOverlap(this, 7)) {
+        if (Utils.checkOverlap(this)) {
             this.killYourselfNOW(context, camera);
         }
     }
@@ -52,19 +53,19 @@
 
     checkHorizontalCollision() {
         const intersectionLeft = (
-            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.walls) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y + 5 }, { x: 0, y: 1 }, this.height - 12, this.walls) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height - 5 }, { x: 0, y: -1 }, this.height, this.walls)|| 
-            Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.entities) || 
+            Utils.raycast(this, { x: this.position.x, y: this.position.y + 5 }, { x: 0, y: 1 }, this.height - 12, this.entities) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height - 5 }, { x: 0, y: -1 }, this.height, this.entities));
              
         const intersectionRight = (
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.walls) || 
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + 5 }, { x: 0, y: 1 }, this.height - 12, this.walls) || 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.walls)||
-            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y }, { x: 0, y: 1 }, this.height - 7, this.entities) || 
+            Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + 5}, { x: 0, y: 1 }, this.height - 12, this.entities) || 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height - 5}, { x: 0, y: -1 }, this.height, this.entities));
 
         if (intersectionRight) {
-            if (intersectionRight.wall.isDead || this.isDead && intersectionRight.wall instanceof Entity) return;
+            if (intersectionRight.wall.isDead || this.isDead && (intersectionRight.wall instanceof Entity || intersectionRight.wall instanceof Interactive)) return;
             if (intersectionRight.wall instanceof Prop) {
                 if (!intersectionRight.wall.collisions.right) {
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
@@ -83,7 +84,7 @@
             return;
         }
         if (intersectionLeft) {
-            if (intersectionLeft.wall.isDead || this.isDead && intersectionLeft.wall instanceof Entity) return;
+            if (intersectionLeft.wall.isDead || this.isDead && (intersectionLeft.wall instanceof Entity || intersectionLeft.wall instanceof Interactive)) return;
             if (intersectionLeft.wall instanceof Prop) {
                     if (!intersectionLeft.wall.collisions.left) {
                     let multiplier = Math.min(((this.width * this.height) / (intersectionLeft.wall.width * intersectionLeft.wall.height)), 1);
@@ -117,7 +118,7 @@
             Utils.raycast(this, { x: this.position.x, y: this.position.y }, { x: 1, y: 0 }, this.width, this.entities);
 
         if (intersectionBottom) {
-            if (intersectionBottom.wall.isDead || this.isDead && intersectionBottom.wall instanceof Entity) return;
+            if (intersectionBottom.wall.isDead || this.isDead && (intersectionBottom.wall instanceof Entity || intersectionBottom.wall instanceof Interactive)) return;
             if (intersectionBottom.wall.velocityX) {
                 this.position.x += intersectionBottom.wall.velocityX;
             }
@@ -129,7 +130,7 @@
             return;
         }
         if (intersectionTop) {
-            if (intersectionTop.wall.isDead || this.isDead && intersectionTop.wall instanceof Entity) return;
+            if (intersectionTop.wall.isDead || this.isDead && (intersectionTop.wall instanceof Entity || intersectionTop.wall instanceof Interactive)) return;
             this.velocityY = 0;
             this.position.y = intersectionTop.wall.position.y + intersectionTop.wall.height + 0.01        
             return;

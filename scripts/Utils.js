@@ -124,7 +124,7 @@ class Utils {
     }
 
     static checkOverlap(self, sensitivity) {
-        return !!Utils.raycast(self, {x: self.position.x + sensitivity, y: self.position.y + sensitivity}, {x: 1, y: 0}, self.width - (sensitivity * 2), self.walls)
+        return !!Utils.raycast(self, {x: self.position.x + 3, y: self.position.y}, {x: 1, y: 0}, self.width - 6, self.walls)
             // !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
     }
 
@@ -162,6 +162,9 @@ class Utils {
                 return null;
             }
         }
+    }
+    static lerp(start, end, t) {
+        return start * (1 - t) + end * t;
     }
 }
 

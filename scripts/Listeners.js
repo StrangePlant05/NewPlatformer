@@ -16,6 +16,17 @@ let jumped2 = false;
 window.addEventListener("resize", (event)=> {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    document.getElementById("menu").classList.add('disableTransitions');
+    let buttons = document.getElementsByClassName('buttonItems');
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].classList.add('disableTransitions');
+    }
+    setTimeout(()=> {
+        document.getElementById("menu").classList.remove('disableTransitions');
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('disableTransitions');
+        }
+    }, 1);
 });
 
 document.addEventListener("keyup", (event) => {

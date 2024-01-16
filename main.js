@@ -12,6 +12,7 @@
             Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
             respawn =  { ...Utils.currentStage.spawnPoint };
             startGame(Utils.currentStage);
+            stopGame();
         }
     })
     
@@ -23,6 +24,7 @@
                 Utils.currentStage = new Stage({layout: jsonData, cellSize: 40})
                 respawn =  { ...Utils.currentStage.spawnPoint };
                 startGame(Utils.currentStage);
+                stopGame();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -41,6 +43,19 @@
         Utils.inputStates[eventKey] = true;
     });
     
+    document.getElementById('play').addEventListener("click", () => {
+        continueGame(Utils.currentStage, player1, player2)
+        document.getElementById('menu').classList.toggle('toggleUpScreen');
+    });
+    document.getElementById('leaveIcon').addEventListener("click", () => {
+        stopGame();
+        document.getElementById('menu').classList.toggle('toggleUpScreen');
+    });
+    document.getElementById('restartIcon').addEventListener("click", () => {
+        stopGame();
+        Utils.currentStage.refreshStage();
+        startGame(Utils.currentStage);
+    });
     let player1;
     let player2;
     
@@ -77,13 +92,13 @@
     
         update(stage, player1, player2);
     }
+
+    function continueGame(stage, player1, player2) {
+        updateRequest = requestAnimationFrame(() => update(stage, player1, player2));
+    }
     
     function stopGame() {
         if (updateRequest) cancelAnimationFrame(updateRequest);
-    }
-    let camera = {
-        x: 0,
-        y: 0
     }
     function update(stage, player1, player2) {
         stage.update(context, player1, player2)

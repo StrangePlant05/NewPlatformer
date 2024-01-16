@@ -14,21 +14,17 @@ class Stage {
             width: layout.project.tileX * layout.project.tileSize,
             height: layout.project.tileY * layout.project.tileSize,
         }
-        this.initStage();
-        this.camera = {
-            x: 0,
-            y: 0,
-            dx: 0,
-            dy: 0,
-            velocity: {
-                x: 0,
-                y: 0
-            },
-            speed: 10
-        }
+        this.refreshStage();
+        this.camera = undefined;
     }
 
-    initStage() {
+    refreshStage() {
+        this.walls = [];
+        this.entities = [];
+        this.buttons = [];
+        this.spikes = [];
+        this.checkpoints = [];
+        this.spawnPoint = {};
         this.levelLayout.forEach(tile => {
             let x = tile.x;
             let y = tile.y;
@@ -82,6 +78,7 @@ class Stage {
                     this.checkpoints.push(new Finish({x, y, width: width - 0.5, height: height - 0.5, color}));
                     break;
             }
+            this.camera = undefined;
         });
     }
     update(context, player1, player2) {
@@ -89,14 +86,20 @@ class Stage {
         let playerYAverage = (player1.position.y + player2.position.y) / 2
         let cameraOffsetX = (playerXAverage - window.innerWidth /2);
         let cameraOffsetY = (playerYAverage - window.innerHeight /2);
-        let smoothness = 0.1;
-        let newCameraOffsetX = this.lerp(this.camera.x, cameraOffsetX, smoothness);
-        let newCameraOffsetY = this.lerp(this.camera.y, cameraOffsetY, smoothness);
-        this.camera = {
-            x: newCameraOffsetX,
-            y: newCameraOffsetY
+        if (!this.camera) {
+            this.camera = {
+                x: cameraOffsetX,
+                y: cameraOffsetY
+            }
+        } else {
+            let smoothness = 0.1;
+            let newCameraOffsetX = Utils.lerp(this.camera.x, cameraOffsetX, smoothness);
+            let newCameraOffsetY = Utils.lerp(this.camera.y, cameraOffsetY, smoothness);
+            this.camera = {
+                x: newCameraOffsetX,
+                y: newCameraOffsetY
+            }
         }
-
 
         context.clearRect(0, 0, window.innerWidth, window.innerHeight)
         this.checkpoints.forEach(button => {
@@ -129,9 +132,6 @@ class Stage {
         if (player2.position.y > this.stageBounds.height) {
             player2.killYourselfNOW(context, this.camera);
         }
-    }
-    lerp(start, end, t) {
-        return start * (1 - t) + end * t;
     }
 
     convertToLevelData(tiles) {
