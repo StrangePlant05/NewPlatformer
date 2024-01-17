@@ -51,6 +51,14 @@ let keynum;
             player2.jump();
             jumped2 = true;
         }
+        if (eventKey === Utils.keybindsPlayer1.destroy && !destroying1) {
+            destroying1 = true;
+            player1.destroyBox();
+        } 
+        if (eventKey === Utils.keybindsPlayer2.destroy && !destroying2) {
+            destroying2 = true;
+            player2.destroyBox();
+        }
         Utils.inputStates[eventKey] = true;
     });
     let timer;

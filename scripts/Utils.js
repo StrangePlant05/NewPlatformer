@@ -4,12 +4,14 @@ class Utils {
     static keybindsPlayer1 = {
         jump: "w",
         moveLeft: "a",
-        moveRight: "d"
+        moveRight: "d",
+        destroy: "e",
     }
     static keybindsPlayer2 = {
         jump: "arrowup",
         moveLeft: "arrowleft",
-        moveRight: "arrowright"
+        moveRight: "arrowright",
+        destroy: "l"
     }
     static mouse = {
         x: 0,
@@ -137,6 +139,29 @@ class Utils {
                 !!Utils.raycast(self, collisionTopRightY, { x: 0, y: -1 }, self.height,self.entities),
         }
 
+    }
+
+    static getNearby(self, offsetHorizontal, offsetVertical) {
+        let collisionTopLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y };
+        let collisionBottomLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y + self.height };
+        
+        let collisionTopRightX = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y };
+        let collisionBottomRightX = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y + self.height };
+
+        let collisionBottomLeftY = { x: self.position.x + self.width, y: self.position.y + self.height + offsetVertical }
+        let collisionBottomRightY = { x: self.position.x, y: self.position.y + self.height + offsetVertical }
+                
+        let collisionTopLeftY = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y }
+        let collisionTopRightY = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y + self.height }
+
+        return Utils.raycast(self, collisionTopLeftX, { x: 0, y: 1 }, self.height, self.walls) || 
+               Utils.raycast(self, collisionBottomLeftX, { x: 0, y: -1 }, self.height, self.walls) || 
+               Utils.raycast(self, collisionTopLeftX, { x: 0, y: 1 }, self.height, self.entities) || 
+               Utils.raycast(self, collisionBottomLeftX, { x: 0, y: -1 }, self.height, self.entities)||      
+               Utils.raycast(self, collisionTopRightX, { x: 0, y: 1 }, self.height, self.walls) || 
+               Utils.raycast(self, collisionBottomRightX, { x: 0, y: -1 }, self.height, self.walls) ||
+               Utils.raycast(self, collisionTopRightX, { x: 0, y: 1 }, self.height, self.entities) || 
+               Utils.raycast(self, collisionBottomRightX, { x: 0, y: -1 }, self.height, self.entities)
     }
 
     static checkOverlap(self) {

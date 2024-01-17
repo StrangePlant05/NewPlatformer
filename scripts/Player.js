@@ -1,7 +1,3 @@
-
-
-
-
 class Player extends Entity{
     constructor({x, y, width, height, color, walls, keybinds, entities, respawn, jumpStrength, speed}) {
         super({
@@ -30,10 +26,13 @@ class Player extends Entity{
         this.deathPosition = {};
         this.deathTimeout;
         this.currentCheckpoint = undefined;
+        this.destroyCooldown = undefined;
+        this.isDestroying = false;
     }
     update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);
         this.collision = Utils.checkForCollisions(this, 10, 5);
+        this.checkDestroyBox(context, camera);
         super.update(context, camera);
     }
 
@@ -41,5 +40,35 @@ class Player extends Entity{
         if (this.collision.bottom) {
             this.velocityY = -this.jumpStrength;
         }
+    }
+
+    checkForBoxes() {
+        let nearby = Utils.getNearby(this, 50);
+        if (nearby) {
+            if (nearby.wall instanceof Prop) {
+                return nearby.wall;
+            }
+        }
+        return null;
+    }
+
+    checkDestroyBox(context, camera) {
+        let box = this.checkForBoxes();
+        if (box) {
+            if (!this.destroyCooldown && this.isDestroying) {
+                this.isDestroying = false;
+                box.killYourselfNOW(context, camera);
+                this.destroyCooldown = setTimeout(()=> {
+                    this.destroyCooldown = undefined;
+                }, 2000)
+            }
+        }
+    }
+
+    destroyBox() {
+        this.isDestroying = true;
+        setTimeout(()=> {
+            this.isDestroying = false;
+        }, 200)
     }
 }

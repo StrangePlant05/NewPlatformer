@@ -1,5 +1,7 @@
 let jumped = false;
 let jumped2 = false;
+let destroying1 = false;
+let destroying2 = false;
 
 let isGettingKeybind = false;
 let keybindFor;
@@ -9,7 +11,9 @@ document.getElementById("le1"),
 document.getElementById("ri1"),
 document.getElementById("ju2"),
 document.getElementById("le2"),
-document.getElementById("ri2")
+document.getElementById("ri2"),
+document.getElementById("de1"),
+document.getElementById("de2"),
 ]
 
 function shitloop(x){
@@ -64,6 +68,16 @@ document.getElementById("rightPlayer2").addEventListener("click",(event)=>{
     keybindFor = "right2"
     shitloop( shit[5])
 })
+document.getElementById("destroyPlayer1").addEventListener("click",(event)=>{
+    isGettingKeybind = true;
+    keybindFor = "destroy1"
+    shitloop( shit[6])
+})
+document.getElementById("destroyPlayer2").addEventListener("click",(event)=>{
+    isGettingKeybind = true;
+    keybindFor = "destroy2"
+    shitloop( shit[7])
+})
 document.addEventListener("keydown", (event) => {
 let x = event.key.toUpperCase();
 if (x == " "){
@@ -97,8 +111,16 @@ if (x == " "){
                 Utils.keybindsPlayer2.moveRight = event.key;
                 document.getElementById("ri2").innerHTML = x
                 break; 
+            case "destroy1":
+                Utils.keybindsPlayer2.destroy = event.key;
+                document.getElementById("de1").innerHTML = x
+                break; 
+            case "destroy2":
+                Utils.keybindsPlayer2.destroy= event.key;
+                document.getElementById("de2").innerHTML = x
+                break; 
         }
-        shitloop(shit[6]);
+        shitloop(shit[9]);
     }
     //alert(event.key)
 });
@@ -132,6 +154,8 @@ document.addEventListener("keyup", (event) => {
     const eventKey = event.key.toLowerCase();
     if (eventKey === Utils.keybindsPlayer1.jump) jumped = false;
     if (eventKey === Utils.keybindsPlayer2.jump) jumped2 = false;
+    if (eventKey === Utils.keybindsPlayer1.destroy) destroying1 = false;
+    if (eventKey === Utils.keybindsPlayer2.destroy) destroying2 = false;
     Utils.inputStates[eventKey] = false;
 });
 
