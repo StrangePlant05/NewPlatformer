@@ -31,7 +31,7 @@ class Player extends Entity{
     }
     update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);
-        this.collision = Utils.checkForCollisions(this, 10, 5);
+        this.collision = Utils.checkForCollisions(this, 12, 5);
         this.checkDestroyBox(context, camera);
         super.update(context, camera);
     }
@@ -43,7 +43,7 @@ class Player extends Entity{
     }
 
     checkForBoxes() {
-        let nearby = Utils.getNearby(this, 50);
+        let nearby = Utils.getNearby(this, 80);
         if (nearby) {
             if (nearby.wall instanceof Prop) {
                 return nearby.wall;
@@ -55,6 +55,7 @@ class Player extends Entity{
     checkDestroyBox(context, camera) {
         let box = this.checkForBoxes();
         if (box) {
+            console.log('a')
             if (!this.destroyCooldown && this.isDestroying) {
                 this.isDestroying = false;
                 box.killYourselfNOW(context, camera);
@@ -69,6 +70,6 @@ class Player extends Entity{
         this.isDestroying = true;
         setTimeout(()=> {
             this.isDestroying = false;
-        }, 200)
+        }, 500)
     }
 }

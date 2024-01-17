@@ -67,7 +67,6 @@
             if (intersectionRight.wall.isDead || this.isDead && (intersectionRight.wall instanceof Entity || intersectionRight.wall instanceof Interactive)) return;
             if (intersectionRight.wall instanceof Prop) {
                 if (!intersectionRight.wall.collision.right) {
-                    console.log("a")
                     let multiplier = Math.min((((this.width * this.height)) / (intersectionRight.wall.width * intersectionRight.wall.height)+0.2), 1);
                     this.velocityX *= multiplier;
                     multiplier = 0.8;
@@ -75,7 +74,13 @@
                     intersectionRight.wall.velocityX = this.velocityX;
                     intersectionRight.wall.dx = this.dx
                     intersectionRight.wall.position.x = this.position.x + this.width;
+                    console.log("a")
                     return
+                } else {
+                    this.velocityX = 0;
+                    this.position.x = intersectionRight.wall.position.x - this.width - 0.01
+                    this.dx = 0;
+                    return;
                 }
             }
             this.velocityX = 0;
@@ -94,6 +99,11 @@
                     intersectionLeft.wall.velocityX = this.velocityX;
                     intersectionLeft.wall.dx = this.dx;
                     intersectionLeft.wall.position.x = this.position.x - intersectionLeft.wall.width
+                    return;
+                } else {
+                    this.velocityX = 0;
+                    this.position.x = intersectionLeft.wall.position.x + intersectionLeft.wall.width + 0.01
+                    this.dx = 0;
                     return;
                 }
             }

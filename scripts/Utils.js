@@ -8,17 +8,15 @@ class Utils {
         destroy: "e",
     }
     static keybindsPlayer2 = {
-        jump: "arrowup",
-        moveLeft: "arrowleft",
-        moveRight: "arrowright",
+        jump: "ArrowUp",
+        moveLeft: "ArrowLeft",
+        moveRight: "ArrowRight",
         destroy: "l"
     }
     static mouse = {
         x: 0,
         y: 0
     }
-    // static player1Color = "#ff0000";
-    // static player2Color = "#0000ff";
     static player1Color = "#ff4a36";
     static player2Color = "#3421ff";
     static colors = [
@@ -33,18 +31,6 @@ class Utils {
         "#34ebe8",  // checkpoint
         "#32e641"   // finish
     ]
-    // static colors = [
-    //     "#00000000",
-    //     "black",
-    //     "orange",
-    //     "brown",
-    //     "red",
-    //     "#ad6134",
-    //     "green",
-    //     "yellow",
-    //     "#34ebe8",
-    //     "#32e641"
-    // ]
     static stageLayout = [];
     static currentStage;
 
@@ -141,27 +127,18 @@ class Utils {
 
     }
 
-    static getNearby(self, offsetHorizontal, offsetVertical) {
-        let collisionTopLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y };
-        let collisionBottomLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y + self.height };
-        
-        let collisionTopRightX = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y };
-        let collisionBottomRightX = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y + self.height };
-
-        let collisionBottomLeftY = { x: self.position.x + self.width, y: self.position.y + self.height + offsetVertical }
-        let collisionBottomRightY = { x: self.position.x, y: self.position.y + self.height + offsetVertical }
-                
-        let collisionTopLeftY = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y }
-        let collisionTopRightY = { x: self.position.x + self.width + offsetHorizontal, y: self.position.y + self.height }
-
-        return Utils.raycast(self, collisionTopLeftX, { x: 0, y: 1 }, self.height, self.walls) || 
-               Utils.raycast(self, collisionBottomLeftX, { x: 0, y: -1 }, self.height, self.walls) || 
-               Utils.raycast(self, collisionTopLeftX, { x: 0, y: 1 }, self.height, self.entities) || 
-               Utils.raycast(self, collisionBottomLeftX, { x: 0, y: -1 }, self.height, self.entities)||      
-               Utils.raycast(self, collisionTopRightX, { x: 0, y: 1 }, self.height, self.walls) || 
-               Utils.raycast(self, collisionBottomRightX, { x: 0, y: -1 }, self.height, self.walls) ||
-               Utils.raycast(self, collisionTopRightX, { x: 0, y: 1 }, self.height, self.entities) || 
-               Utils.raycast(self, collisionBottomRightX, { x: 0, y: -1 }, self.height, self.entities)
+    static getNearby(self, offsetHorizontal) {
+        let left = { x: self.position.x - offsetHorizontal, y: self.position.y + self.height / 2 };
+        let right = { x: self.position.x + self.width, y: self.position.y + self.height / 2 };
+        let rightEntity = Utils.raycast(self, right, { x: 1, y: 0 }, offsetHorizontal, self.entities)
+        let leftEntity = Utils.raycast(self, left, { x: 1, y: 0 }, offsetHorizontal, self.entities)
+        if (rightEntity && rightEntity.wall instanceof Prop) {
+            return rightEntity;
+        }
+        if (leftEntity && leftEntity.wall instanceof Prop) {
+            return leftEntity;
+        }
+        return null;
     }
 
     static checkOverlap(self) {

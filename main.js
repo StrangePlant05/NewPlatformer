@@ -42,7 +42,7 @@ let keynum;
             });
     })
     document.addEventListener("keydown", (event) => {
-        const eventKey = event.key.toLowerCase();
+        const eventKey = event.key
         if (eventKey === Utils.keybindsPlayer1.jump && !jumped) {
             player1.jump();
             jumped = true;

@@ -151,7 +151,7 @@ window.addEventListener("resize", (event)=> {
 });
 
 document.addEventListener("keyup", (event) => {
-    const eventKey = event.key.toLowerCase();
+    const eventKey = event.key
     if (eventKey === Utils.keybindsPlayer1.jump) jumped = false;
     if (eventKey === Utils.keybindsPlayer2.jump) jumped2 = false;
     if (eventKey === Utils.keybindsPlayer1.destroy) destroying1 = false;
