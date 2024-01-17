@@ -20,7 +20,7 @@ class Utils {
     static player1Color = "#ff4a36";
     static player2Color = "#3421ff";
     static colors = [
-        "#00000000",
+        "#00000000",// empty placeholder
         "#ed975c",  //wall
         "#51cf38",  // button
         "#d66b45",  // door
