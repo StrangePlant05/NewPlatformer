@@ -29,7 +29,7 @@ class Player extends Entity{
         this.isDead = false;
         this.deathPosition = {};
         this.deathTimeout;
-        this.visitedCheckpoints = [];
+        this.currentCheckpoint = undefined;
     }
     update(context, camera) {
         this.dx = Utils.getDirection(this, this.acceleration, this.friction, this.keybinds);

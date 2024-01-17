@@ -13,6 +13,7 @@ body{
     top: 0;
     left: 0;
     pointer-events: none;
+    background-color: #fff2de;
 }
 .menu {
     width: 100vw;
@@ -26,10 +27,6 @@ body{
     justify-content: center;
     background: linear-gradient(to top, #fda76d, #ffde84);
     transition: 2s;
-}
-#file {
-    position: absolute;
-    left: 3vh;
 }
 .title {
     display: grid;
@@ -105,6 +102,7 @@ body{
     border-color: white;
     border-width: 1vh;
     border-style: solid;
+    user-select: none;
 }
 .buttonItems {
     background-color: #ff9955;
@@ -121,6 +119,7 @@ body{
 }
 a {
     text-decoration: none;
+    user-select: none;
 }
 .buttonItems:hover {
     transform: scale(1.1);
@@ -179,4 +178,39 @@ h3 {
 }
 h2:hover{
     text-decoration: underline;
+}
+
+.fileInputContainer {
+    position: absolute;
+    left: 3vh;
+    display: flex;
+    gap: 5vh;
+    height: 90%;
+    align-items: center;
+    user-select: none;
+}
+.fileInputButton {
+    background-color: #ffdda9;
+    display: grid;
+    place-items: center;
+    border-radius: 2vh;
+    border-color: white;
+    border-width: .5vh;
+    border-style: solid;
+    font-size: 3vh;
+    padding: 1vh;
+}
+#file {
+    display: none;
+}
+#selectedFile {
+    color: white;
+    font-size: 4vh;
+}
+#timer {
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 10;
+    position: absolute;
+    color: white;
 }

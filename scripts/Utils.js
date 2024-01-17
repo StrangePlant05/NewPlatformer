@@ -15,18 +15,34 @@ class Utils {
         x: 0,
         y: 0
     }
+    // static player1Color = "#ff0000";
+    // static player2Color = "#0000ff";
+    static player1Color = "#ff4a36";
+    static player2Color = "#3421ff";
     static colors = [
         "#00000000",
-        "black",
-        "orange",
-        "brown",
-        "red",
-        "#ad6134",
-        "green",
-        "yellow",
-        "#34ebe8",
-        "#32e641"
+        "#ed975c",  //wall
+        "#51cf38",  // button
+        "#d66b45",  // door
+        "red",      //spike
+        "#ad6134",  //crate
+        "green",    //spawn point (temp)
+        "#bd4d31",  // movables
+        "#34ebe8",  // checkpoint
+        "#32e641"   // finish
     ]
+    // static colors = [
+    //     "#00000000",
+    //     "black",
+    //     "orange",
+    //     "brown",
+    //     "red",
+    //     "#ad6134",
+    //     "green",
+    //     "yellow",
+    //     "#34ebe8",
+    //     "#32e641"
+    // ]
     static stageLayout = [];
     static currentStage;
 

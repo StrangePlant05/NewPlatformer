@@ -28,11 +28,14 @@ let keynum;
     let updateRequest;
     document.getElementById('file').addEventListener('change', (event) => {
         stopGame();
+        clearTimer();
         Utils.loadJsonFile(null, event.target)
             .then(jsonData => {
+                document.getElementById('selectedFile').innerHTML = document.getElementById('file').files[0].name.split('.').slice(0, -1).join('.');
                 Utils.currentStage = new Stage({layout: jsonData, cellSize: 40})
                 respawn =  { ...Utils.currentStage.spawnPoint };
                 startGame(Utils.currentStage);
+                startCountUpTimer();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -50,19 +53,45 @@ let keynum;
         }
         Utils.inputStates[eventKey] = true;
     });
+    let timer;
+    let totalSeconds = 1;
+    const displayElement = document.getElementById('timer');
+    function startCountUpTimer() {
+
+        timer = setInterval(function () {
+            const minutesDisplay = Math.floor(totalSeconds / 60);
+            const secondsDisplay = totalSeconds % 60;
+
+            displayElement.textContent = `${String(minutesDisplay).padStart(2, '0')}:${String(secondsDisplay).padStart(2, '0')}`;
+            
+            totalSeconds++;
+        }, 1000);
+    }
+    function stopTimer() {
+        clearInterval(timer);
+    }
+    function clearTimer() {
+        displayElement.textContent = "00:00"
+        if (timer) clearInterval(timer);
+        totalSeconds = 1;
+    }
     
     document.getElementById('play').addEventListener("click", () => {
         continueGame(Utils.currentStage, player1, player2)
+        startCountUpTimer();
         document.getElementById('menu').classList.toggle('toggleUpScreen');
     });
     document.getElementById('leaveIcon').addEventListener("click", () => {
         stopGame();
+        stopTimer();
         document.getElementById('menu').classList.toggle('toggleUpScreen');
     });
     document.getElementById('restartIcon').addEventListener("click", () => {
         stopGame();
+        clearTimer();
         Utils.currentStage.refreshStage();
         startGame(Utils.currentStage);
+        startCountUpTimer();
     });
     let player1;
     let player2;
@@ -73,7 +102,7 @@ let keynum;
             y: respawn.y, 
             width: 58, 
             height: 85.4, 
-            color: "#ff0000", 
+            color: Utils.player1Color, 
             entities: Utils.currentStage.entities,
             keybinds: Utils.keybindsPlayer1,
             walls: Utils.currentStage.walls,
@@ -86,7 +115,7 @@ let keynum;
             y: respawn.y,
             width: 58, 
             height: 58, 
-            color: "#0000ff", 
+            color: Utils.player2Color, 
             entities: Utils.currentStage.entities,
             keybinds: Utils.keybindsPlayer2,
             walls: Utils.currentStage.walls,

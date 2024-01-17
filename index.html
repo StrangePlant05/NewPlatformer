@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Salon Talon, Talon Salon</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,7 @@
     <canvas id="canvas"></canvas>   
     <div class="menu" id="menu">
         <div class="title">
-           Tumatalbog
+            Salon Talon, Talon Salon
         </div>
         <div class="buttons">
             <div class="buttonItems" id="play">
@@ -37,7 +37,14 @@
             </div>
         </div>
         <div id="hamburgerMenu">
-            <input type="file" name="uwu" id="file">
+            <div id="timer">
+                00:00
+            </div>
+            <div class="fileInputContainer">
+                <label for="file" class="fileInputButton">Select Level</label>
+                <input type="file" name="fileInput" id="file">
+                <p id="selectedFile">Default Level</p>
+            </div>
             <i class="fa-solid fa-rotate-left" id="restartIcon"></i>
             <i class="fa-solid fa-right-from-bracket" id="leaveIcon"></i>
         </div>
