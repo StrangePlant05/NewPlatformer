@@ -155,18 +155,17 @@ class Utils {
             return new Promise((resolve, reject) => {
                 var file = fileInput.files[0];
                 var reader = new FileReader();
+                var jsonData;
     
-                reader.onload = function (e) {
-                    try {
-                        var jsonData = JSON.parse(e.target.result);
+                try {
+                    reader.onload = function (e) {
+                        jsonData = JSON.parse(e.target.result);
                         resolve(jsonData);
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        reject(null);
-                    }
-                };
-    
-                reader.readAsText(file);
+                    };
+                    reader.readAsText(file);
+                } catch (error) {
+                    if (jsonData) resolve(jsonData);
+                }
             });
         } else {
             var request = new XMLHttpRequest();

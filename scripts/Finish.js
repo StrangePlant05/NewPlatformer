@@ -1,13 +1,14 @@
 class Finish extends Checkpoint {
-    constructor({x, y, width, height, color}) {
+    constructor({stage, x, y, width, height, color}) {
         super({x, y, width, height, color});
         this.finished = false;
+        this.stage = stage;
     }
     update(context, entities, camera) {
         if (this.getEntitiesInside(entities).length == 2 && !this.finished) {
             this.finished = true;
             setTimeout(() => {
-                alert("finished and shit")
+                this.stage.finishStage();
             }, 200)
         }
         super.update(context, entities, camera)

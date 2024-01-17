@@ -14,6 +14,8 @@ let keynum;
         }
         alert(event.key)
     })
+    let timer;
+    let totalSeconds = 1;
 
     document.addEventListener("DOMContentLoaded", () => {
         Utils.stageLayout = Utils.loadJsonFile("data/aaaaa.json", null)
@@ -38,7 +40,12 @@ let keynum;
                 startCountUpTimer();
             })
             .catch(error => {
-                console.error('Error:', error);
+                if (Utils.currentStage) {
+                    respawn =  { ...Utils.currentStage.spawnPoint };
+                    Utils.currentStage.refreshStage();
+                    startGame(Utils.currentStage);
+                    startCountUpTimer();
+                }
             });
     })
     document.addEventListener("keydown", (event) => {
@@ -61,11 +68,8 @@ let keynum;
         }
         Utils.inputStates[eventKey] = true;
     });
-    let timer;
-    let totalSeconds = 1;
     const displayElement = document.getElementById('timer');
     function startCountUpTimer() {
-
         timer = setInterval(function () {
             const minutesDisplay = Math.floor(totalSeconds / 60);
             const secondsDisplay = totalSeconds % 60;
@@ -134,6 +138,22 @@ let keynum;
     
         stage.entities.push(player1)
         stage.entities.push(player2)
+
+        stage.addFinishListener(()=> {
+            stopTimer();
+            const finishedTime = totalSeconds-1;
+            const minutesDisplay = Math.floor(finishedTime / 60);
+            const secondsDisplay = finishedTime % 60;
+
+            const finishedDisplay = `${String(minutesDisplay).padStart(2, '0')}:${String(secondsDisplay).padStart(2, '0')}`;
+            const message = `You finished the stage with the time of ${finishedDisplay}!`;
+            alert(message);
+            stopGame();
+            clearTimer();
+            Utils.currentStage.refreshStage();
+            startGame(Utils.currentStage);
+            startCountUpTimer();
+        });
     
         update(stage, player1, player2);
     }

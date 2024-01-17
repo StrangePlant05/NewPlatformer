@@ -16,6 +16,7 @@ class Stage {
         }
         this.refreshStage();
         this.camera = undefined;
+        this.finishListener = null;
     }
 
     refreshStage() {
@@ -75,7 +76,7 @@ class Stage {
                     this.checkpoints.push(new Checkpoint({id, x, y, width: width - 0.5, height: height - 0.5, color}));
                     break;
                 case 9:
-                    this.checkpoints.push(new Finish({x, y, width: width - 0.5, height: height - 0.5, color}));
+                    this.checkpoints.push(new Finish({stage: this, x, y, width: width - 0.5, height: height - 0.5, color}));
                     break;
             }
             this.camera = undefined;
@@ -171,6 +172,11 @@ class Stage {
         return newTiles;
     }
     finishStage() {
-        
+        if (this.finishListener) {
+            this.finishListener();
+        }
+    }
+    addFinishListener(callback) {
+        this.finishListener = callback;
     }
 }
