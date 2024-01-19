@@ -7,7 +7,7 @@ class Interactive extends Sprite{
 
     update(context, camera) {
         // Utils.moveTowards(this.position.x, plate.isPressed ? pointB.x : pointA.x, 3)
-        Utils.moveTowards(this.position.y, plate.isPressed ? pointB.y : pointA.y, 3)
+        Utils.moveTowards(this.position.y, plate.isPressed ? pointB.y : pointA.y, 3)        // just like interactive platforms but with a set value for movement
 
         this.draw(context, camera)
     }

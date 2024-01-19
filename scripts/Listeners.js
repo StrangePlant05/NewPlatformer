@@ -37,7 +37,7 @@ for (let shite = 0; shite<shit.length; shite++){
     
 //     alert(jumpbuttonconfig)
 // });document.getElementById("jumpPlayer1")
-document.getElementById("jumpPlayer1").addEventListener("click",(event)=>{
+document.getElementById("jumpPlayer1").addEventListener("click",(event)=>{              // keybind changers
     isGettingKeybind = true;
     keybindFor = "jump1"
     shitloop( shit[0])
@@ -124,12 +124,12 @@ if (x == " "){
     }
     //alert(event.key)
 });
-document.getElementById('settings').addEventListener("click", () => {
+document.getElementById('settings').addEventListener("click", () => {                   // player keybinds settings toggle
     document.getElementById("player1").classList.toggle('toggleSettingsPlayer1');
     document.getElementById("player2").classList.toggle('toggleSettingsPlayer2');
 });
 
-window.addEventListener("resize", (event)=> {
+window.addEventListener("resize", (event)=> {               // when the window resizes, the entire document doesn't transition so that it doesn't look glitchy and make it so that you could use zoom in-game
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     document.getElementById("menu").classList.add('disableTransitions');

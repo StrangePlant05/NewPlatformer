@@ -7,7 +7,7 @@ class Checkpoint extends TriggerBox {
     }
     update(context, entities, camera) {
         if (this.activePlayers[0]) {
-            if (this.activePlayers[0].currentCheckpoint !== this) this.activePlayers.splice(0, 1);
+            if (this.activePlayers[0].currentCheckpoint !== this) this.activePlayers.splice(0, 1);          // checks if players are still using this checkpoint
         }
         if (this.activePlayers[1]) {
             if (this.activePlayers[1].currentCheckpoint !== this)  this.activePlayers.splice(1, 1);
@@ -20,7 +20,7 @@ class Checkpoint extends TriggerBox {
         return entities.filter(entity => this.isEntityInside(entity) && entity instanceof Player);
     }
 
-    setCheckpoint(entities) {
+    setCheckpoint(entities) {               // sets where the player spawns and the color based on who interacted with the checkpoint
         if (this.activePlayers.length == 0) {
             this.color = this.originalColor
         }

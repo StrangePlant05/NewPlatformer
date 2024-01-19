@@ -9,7 +9,7 @@ class Interactive extends Sprite{
         this.goingToB = false;
     }
 
-    update(context, camera) {
+    update(context, camera) {               // moves the wall based on if buttons connected to it by id is being pressed
         this.draw(context, camera)
         let plates = [];
         this.connectedId.forEach(id => {

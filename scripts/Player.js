@@ -55,7 +55,6 @@ class Player extends Entity{
     checkDestroyBox(context, camera) {
         let box = this.checkForBoxes();
         if (box) {
-            console.log('a')
             if (!this.destroyCooldown && this.isDestroying) {
                 this.isDestroying = false;
                 box.killYourselfNOW(context, camera);

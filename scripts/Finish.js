@@ -8,12 +8,12 @@ class Finish extends Checkpoint {
         if (this.getEntitiesInside(entities).length == 2 && !this.finished) {
             this.finished = true;
             setTimeout(() => {
-                this.stage.finishStage();
+                this.stage.finishStage();               // checks if there is two players touching the finish line and ends the level
             }, 200)
         }
         super.update(context, entities, camera)
     }
-    setCheckpoint(entities) {
+    setCheckpoint(entities) {                                           // changes color and sets the respawn point of players
         let touchingPlayers = this.getEntitiesInside(entities);
         if (touchingPlayers.length == 0) {
             this.color = this.originalColor;

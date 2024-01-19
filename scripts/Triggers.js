@@ -17,7 +17,7 @@ class TriggerBox extends Sprite{
         return overlapsX && overlapsY;
     }
 
-    getEntitiesInside(entities) {
+    getEntitiesInside(entities) {               // returns all entities that the triggerbox is touching
         return entities.filter(entity => this.isEntityInside(entity));
     }
     

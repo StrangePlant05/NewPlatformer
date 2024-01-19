@@ -90,16 +90,16 @@ function toggleUi() {
 function refreshDisplay() {
     if (lock) {
         tiles.forEach(e => {
-            e.tile.style.background = colors[e.type]
+            e.tile.style.background = colors[e.type]            // changes the color of the tiles based on their type
         });
     } else {
         tiles = [];
         levelDisplay.innerHTML = '';
     
-        if (Number.isInteger(tileX) && Number.isInteger(tileY) && Number.isInteger(tileSize)) {
+        if (Number.isInteger(tileX) && Number.isInteger(tileY) && Number.isInteger(tileSize)) {         
             for (let y = 0; y < tileY; y++) {
                 let row = document.createElement("div");
-                for (let x = 0; x < tileX; x++) {
+                for (let x = 0; x < tileX; x++) {               // creates a grid of empty tiles that you could modify
                     let tile = document.createElement("div");
                     tile.style.width = tileSize + "px";
                     tile.style.height = tileSize + "px";
@@ -136,14 +136,14 @@ function refreshDisplay() {
     }
 }
 
-function tileClick(tile) {
+function tileClick(tile) {          // modify or create tiles
     if (connectingId) {
         tiles.forEach(e => {
             if (e.tile == tile) {
                 selectedTile.connectedId.push(e.id);
                 connectingId = false;
                 toggleUi();
-                selectedTile.tile.innerHTML = 'o';
+                selectedTile.tile.innerHTML = 'o';      // connects a platform or door with a button 
                 typeInput.value = selectedTile.type;
                 idInput.value = selectedTile.id;
                 spanRowInput.value = selectedTile.spanRow;
@@ -167,9 +167,9 @@ function tileClick(tile) {
                     }
                 }
                 type -= 1;
-                selectedTile = currentTile;
+                selectedTile = currentTile;                 
                 currentTile.tile.innerHTML = 'o';
-                typeInput.value = currentTile.type;
+                typeInput.value = currentTile.type;         // puts the data on display for a selected tile
                 idInput.value = currentTile.id;
                 spanRowInput.value = currentTile.spanRow;
                 spanColumnInput.value = currentTile.spanColumn;
@@ -187,7 +187,7 @@ function tileClick(tile) {
     }
 }
 
-spanColumnInput.addEventListener("input", () => {
+spanColumnInput.addEventListener("input", () => {           // used to span columns and rows and affects the tiles it uses
     let newSpan = parseInt(spanColumnInput.value)
     if (selectedTile) {
         if (newSpan >= 1 && (newSpan + selectedTile.x) <= tileX) {
@@ -250,7 +250,7 @@ spanRowInput.addEventListener("input", () => {
     }
 });
 
-moveXInput.addEventListener("input", () => {
+moveXInput.addEventListener("input", () => {                // adds a data to use for platforms for moving it
     if (selectedTile && moveXInput.value != '') {
         if (selectedTile.type == 7) {
             let moveX = parseInt(moveXInput.value);
@@ -276,7 +276,7 @@ moveYInput.addEventListener("input", () => {
     }
 });
 
-idConnectInput.addEventListener("input", () => {
+idConnectInput.addEventListener("input", () => {            // starts the connection for a door or platform to a button
     let inputText = "[" + idConnectInput.value + "]";
     try {
         let newIds = JSON.parse(inputText);
@@ -296,7 +296,7 @@ function exportToJson() {
         tiles
     }
 
-    var jsonString = JSON.stringify(newJson, null, 2);
+    var jsonString = JSON.stringify(newJson, null, 2);          // add the project grid values and the tiles into a json file and exports it
 
     var blob = new Blob([jsonString], { type: "application/json" });
 
@@ -333,7 +333,7 @@ document.getElementById('file').addEventListener('input', (event) => {
                 let tile = document.createElement("div");
                 tile.style.width = tileSize + "px";
                 tile.style.height = tileSize + "px";
-                tile.style.borderWidth = "1px";
+                tile.style.borderWidth = "1px";             // loads a file, turns them into tile data for the editor
                 tile.style.border = "solid";
                 tile.style.borderColor = "#b2b2b250";
                 tile.style.userSelect = "none"

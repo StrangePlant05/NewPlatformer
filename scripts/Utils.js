@@ -1,4 +1,4 @@
-class Utils {
+class Utils {                           // just a class of a bunch of useful functions
     static inputStates = {};
     
     static keybindsPlayer1 = {
@@ -34,7 +34,7 @@ class Utils {
     static stageLayout = [];
     static currentStage;
 
-    static moveTowards(current, target, maxDelta) {
+    static moveTowards(current, target, maxDelta) {         // make values move from one point to another in a linear motion with control on how fast the values change
         const difference = target - current;
         if (Math.abs(difference) <= maxDelta) {
             return target;
@@ -44,8 +44,8 @@ class Utils {
         }
     }
 
-    static raycast(self, origin, direction, length, walls) {
-        let intersection = null;
+    static raycast(self, origin, direction, length, walls) {        // checks if there's any walls / entities in the ray it is casted
+        let intersection = null;    
     
         for (let i = 0; i < walls.length; i++) {
             if (self == walls[i]) {
@@ -72,7 +72,7 @@ class Utils {
     
         return intersection;
     }
-    static getDirection(player, acceleration, friction, keybinds) {
+    static getDirection(player, acceleration, friction, keybinds) {                 // used for getting directions based on the player keybinds
         let targetAcceleration = 0;
     
         if (!(this.inputStates[keybinds.moveLeft] && this.inputStates[keybinds.moveRight])) {
@@ -86,7 +86,7 @@ class Utils {
         return direction;
     }
 
-    static checkForCollisions(self, offsetHorizontal, offsetVertical) {
+    static checkForCollisions(self, offsetHorizontal, offsetVertical) {                                 // just a bunch of raycasts around the player and turning them to json array of bools
         let collisionTopLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y };
         let collisionBottomLeftX = { x: self.position.x - offsetHorizontal, y: self.position.y + self.height };
         
@@ -127,7 +127,7 @@ class Utils {
 
     }
 
-    static getNearby(self, offsetHorizontal) {
+    static getNearby(self, offsetHorizontal) {                                                              // just like the function above, but for horizontal
         let left = { x: self.position.x - offsetHorizontal, y: self.position.y + self.height / 2 };
         let right = { x: self.position.x + self.width, y: self.position.y + self.height / 2 };
         let rightEntity = Utils.raycast(self, right, { x: 1, y: 0 }, offsetHorizontal, self.entities)
@@ -141,7 +141,7 @@ class Utils {
         return null;
     }
 
-    static checkOverlap(self) {
+    static checkOverlap(self) {                     // check if any walls or entities are inside the current entity
         return !!Utils.raycast(self, {x: self.position.x + 8, y: self.position.y}, {x: 1, y: 0}, self.width - 16, self.walls)
             // !!Utils.raycast(self, {x: self.position.x + self.width - sensitivity, y: self.position.y + sensitivity}, {x: -1, y: 0}, self.width - sensitivity, self.walls)
     }
@@ -150,7 +150,7 @@ class Utils {
         return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2))
     }
 
-    static loadJsonFile(path, fileInput) {
+    static loadJsonFile(path, fileInput) {                      // used to load json files based on if it is a file path or a literal file
         if (fileInput) {
             return new Promise((resolve, reject) => {
                 var file = fileInput.files[0];
@@ -180,7 +180,7 @@ class Utils {
             }
         }
     }
-    static lerp(start, end, t) {
+    static lerp(start, end, t) {                    // linear interpolation
         return start * (1 - t) + end * t;
     }
 }

@@ -17,7 +17,7 @@ let keynum;
     let timer;
     let totalSeconds = 1;
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {                   // load the default level when the page loads and pauses it 
         Utils.stageLayout = Utils.loadJsonFile("data/main.json", null)
         if (Utils.stageLayout) {
             Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
@@ -28,7 +28,7 @@ let keynum;
     })
     
     let updateRequest;
-    document.getElementById('file').addEventListener('change', (event) => {
+    document.getElementById('file').addEventListener('change', (event) => {             // loads a level from a file picker
         stopGame();
         clearTimer();
         Utils.loadJsonFile(null, event.target)
@@ -48,7 +48,7 @@ let keynum;
                 }
             });
     })
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", (event) => {               // handler for jump buttons and destroy buttons
         const eventKey = event.key
         if (eventKey === Utils.keybindsPlayer1.jump && !jumped) {
             player1.jump();
@@ -70,7 +70,7 @@ let keynum;
     });
     const displayElement = document.getElementById('timer');
     function startCountUpTimer() {
-        timer = setInterval(function () {
+        timer = setInterval(function () {                           // timer above
             const minutesDisplay = Math.floor(totalSeconds / 60);
             const secondsDisplay = totalSeconds % 60;
 
@@ -108,7 +108,7 @@ let keynum;
     let player1;
     let player2;
     
-    function startGame(stage) {
+    function startGame(stage) {         // modifies the player according to where they are spawned based on the given stage
         player1 = new Player({
             x: respawn.x, 
             y: respawn.y, 
@@ -136,10 +136,10 @@ let keynum;
             speed: 8
         });
     
-        stage.entities.push(player1)
+        stage.entities.push(player1)            // adds the collisions to the stage
         stage.entities.push(player2)
 
-        stage.addFinishListener(()=> {
+        stage.addFinishListener(()=> {              // time display when it finishes
             stopTimer();
             const finishedTime = totalSeconds-1;
             const minutesDisplay = Math.floor(finishedTime / 60);
@@ -155,7 +155,7 @@ let keynum;
             startCountUpTimer();
         });
     
-        update(stage, player1, player2);
+        update(stage, player1, player2);            
     }
 
     function continueGame(stage, player1, player2) {
@@ -165,7 +165,7 @@ let keynum;
     function stopGame() {
         if (updateRequest) cancelAnimationFrame(updateRequest);
     }
-    function update(stage, player1, player2) {
+    function update(stage, player1, player2) {      // puts the game in a loop 
         stage.update(context, player1, player2)
         updateRequest = requestAnimationFrame(() => update(stage, player1, player2));
     }

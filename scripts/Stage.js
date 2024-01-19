@@ -19,7 +19,7 @@ class Stage {
         this.finishListener = null;
     }
 
-    refreshStage() {
+    refreshStage() {                    // loads all the tiles based on the layout
         this.walls = [];
         this.entities = [];
         this.buttons = [];
@@ -36,7 +36,7 @@ class Stage {
             let id = tile.id;
             let move = tile.move;
             let color = Utils.colors[type];
-            switch (type) {
+            switch (type) {                     // create the different tiles based on the different types
                 case 1:
                     this.walls.push(new Sprite({x, y, width, height, color}));
                     break;
@@ -84,7 +84,7 @@ class Stage {
     }
     update(context, player1, player2) {
         let playerXAverage = (player1.position.x + player2.position.x) / 2
-        let playerYAverage = (player1.position.y + player2.position.y) / 2
+        let playerYAverage = (player1.position.y + player2.position.y) / 2              // centered camera for both players
         let cameraOffsetX = (playerXAverage - window.innerWidth /2);
         let cameraOffsetY = (playerYAverage - window.innerHeight /2);
         if (!this.camera) {
@@ -95,7 +95,7 @@ class Stage {
         } else {
             let smoothness = 0.1;
             let newCameraOffsetX = Utils.lerp(this.camera.x, cameraOffsetX, smoothness);
-            let newCameraOffsetY = Utils.lerp(this.camera.y, cameraOffsetY, smoothness);
+            let newCameraOffsetY = Utils.lerp(this.camera.y, cameraOffsetY, smoothness);        // smooth camera
             this.camera = {
                 x: newCameraOffsetX,
                 y: newCameraOffsetY
@@ -135,7 +135,7 @@ class Stage {
         }
     }
 
-    convertToLevelData(tiles) {
+    convertToLevelData(tiles) {                 // initializes the game tiles based on the file from the level editor
         let newTiles = [];
         let seenIds = {};
         for (let i = 0; i < tiles.length; i++) {

@@ -4,7 +4,7 @@ class KillBox extends TriggerBox {
     }
 
     update(context, entities, camera) {
-        this.getEntitiesInside(entities).forEach(player => {
+        this.getEntitiesInside(entities).forEach(player => {            // just kill anything inside or touching
             player.killYourselfNOW(context, camera);
         });
         super.update(context, entities, camera)

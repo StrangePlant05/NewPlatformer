@@ -27,7 +27,7 @@
             this.draw(context, camera);
         } else {
             let applyOpacity;
-            this.playerOpacity = Utils.moveTowards(this.playerOpacity, 0, 4);
+            this.playerOpacity = Utils.moveTowards(this.playerOpacity, 0, 4);               // when die, do death animation
             applyOpacity = this.playerOpacity.toString().length == 1 ? "0" + this.playerOpacity : this.playerOpacity;
             this.color = this.originalColor + applyOpacity;
             this.dx = Utils.moveTowards(this.dx, 0, 0.07);
@@ -35,12 +35,12 @@
             this.draw(context, camera);
         }
         this.draw(context, camera);
-        this.position.x += this.velocityX;
+        this.position.x += this.velocityX;          // apply physics here of horizontal movement
         this.velocityX = this.speed * this.dx;
-        this.checkHorizontalCollision();
+        this.checkHorizontalCollision();            // checks for collisions, stops the player if detected
         this.applyGravity();
         this.checkVerticalCollision();
-        if (Utils.checkOverlap(this)) {
+        if (Utils.checkOverlap(this)) {             // if there's anything inside the entity, kill itself NOW
             this.killYourselfNOW(context, camera);
         }
     }
@@ -50,7 +50,7 @@
         this.velocityY += this.gravity;
     }
 
-    checkHorizontalCollision() {
+    checkHorizontalCollision() {                // checks if there are walls and entities and stops them from moving unless they are props
         const intersectionLeft = (
             Utils.raycast(this, { x: this.position.x, y: this.position.y + 5 }, { x: 0, y: 1 }, this.height - 12, this.walls) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height - 5 }, { x: 0, y: -1 }, this.height, this.walls)|| 
@@ -114,7 +114,7 @@
         }
     }
 
-    checkVerticalCollision() {
+    checkVerticalCollision() {              // just like above, but make the entity follow with anything that's below
         const intersectionBottom = 
             Utils.raycast(this, { x: this.position.x + this.width, y: this.position.y + this.height + 3 }, { x: -1, y: 0 }, this.width, this.walls) || 
             Utils.raycast(this, { x: this.position.x, y: this.position.y + this.height + 3 }, { x: 1, y: 0 }, this.width, this.walls) ||
@@ -158,7 +158,7 @@
         }
     }
 
-    killYourselfNOW(context, camera) {
+    killYourselfNOW(context, camera) {          // death for entities
         this.isDead = true;
         this.deathPosition = {x: this.position.x, y: this.position.y}
         if (!this.deathTimeout) {
