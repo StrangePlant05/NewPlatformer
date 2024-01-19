@@ -122,10 +122,10 @@ class Stage {
         });
 
 
-        if (Utils.getDistance(player1.position, player2.position) > 2000 && (!player1.isDead && !player2.isDead)) {
-            player1.killYourselfNOW(context, this.camera);
-            player2.killYourselfNOW(context, this.camera);
-        }
+        // if (Utils.getDistance(player1.position, player2.position) > 2000 && (!player1.isDead && !player2.isDead)) {
+        //     player1.killYourselfNOW(context, this.camera);
+        //     player2.killYourselfNOW(context, this.camera);
+        // }
 
         if (player1.position.y > this.stageBounds.height) {
             player1.killYourselfNOW(context, this.camera);

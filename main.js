@@ -18,7 +18,7 @@ let keynum;
     let totalSeconds = 1;
 
     document.addEventListener("DOMContentLoaded", () => {
-        Utils.stageLayout = Utils.loadJsonFile("data/aaaaa.json", null)
+        Utils.stageLayout = Utils.loadJsonFile("data/main.json", null)
         if (Utils.stageLayout) {
             Utils.currentStage = new Stage({layout: Utils.stageLayout, cellSize: 40})
             respawn =  { ...Utils.currentStage.spawnPoint };
@@ -112,7 +112,7 @@ let keynum;
         player1 = new Player({
             x: respawn.x, 
             y: respawn.y, 
-            width: 58, 
+            width: 60, 
             height: 85.4, 
             color: Utils.player1Color, 
             entities: Utils.currentStage.entities,

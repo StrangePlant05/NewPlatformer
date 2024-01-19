@@ -112,7 +112,7 @@ if (x == " "){
                 document.getElementById("ri2").innerHTML = x
                 break; 
             case "destroy1":
-                Utils.keybindsPlayer2.destroy = event.key;
+                Utils.keybindsPlayer1.destroy = event.key;
                 document.getElementById("de1").innerHTML = x
                 break; 
             case "destroy2":
